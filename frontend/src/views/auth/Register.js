@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { auth } from "firebase/firebase.utils";
+import { createUserProfileDocument } from "firebase/firebase.utils";
+import { signInWithGoogle } from "firebase/firebase.utils";
+import { Link } from "react-router-dom";
 
 export default function Register() {
+
+  const [displayName, setDisplayName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+
+    try {
+        const { user } = await auth.createUserWithEmailAndPassword(email, password);
+        await createUserProfileDocument(user, { displayName });
+        setDisplayName("")
+        setEmail("")
+        setPassword("")
+    } catch (error) {
+        console.error(error)
+    };
+  }
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -15,19 +39,9 @@ export default function Register() {
                 </div>
                 <div className="btn-wrapper text-center">
                   <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="..."
-                      className="w-5 mr-1"
-                      src={require("assets/img/github.svg").default}
-                    />
-                    Github
-                  </button>
-                  <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
+                    onClick={signInWithGoogle}
                   >
                     <img
                       alt="..."
@@ -43,7 +57,7 @@ export default function Register() {
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
                   <small>Or sign up with credentials</small>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -52,9 +66,13 @@ export default function Register() {
                       Name
                     </label>
                     <input
-                      type="email"
+                      type="text"
+                      name="displayName"
+                      value={displayName}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Name"
+                      onChange={(e)=>setDisplayName(e.target.value)}
+                      required
                     />
                   </div>
 
@@ -67,8 +85,12 @@ export default function Register() {
                     </label>
                     <input
                       type="email"
+                      name="email"
+                      value={email}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
+                      onChange={(e)=>setEmail(e.target.value)}
+                      required
                     />
                   </div>
 
@@ -81,27 +103,21 @@ export default function Register() {
                     </label>
                     <input
                       type="password"
+                      name="password"
+                      value={password}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
+                      onChange={(e)=>setPassword(e.target.value)}
+                      required
                     />
                   </div>
 
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                      />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        I agree with the{" "}
-                        <a
-                          href="#pablo"
-                          className="text-lightBlue-500"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Privacy Policy
-                        </a>
+                        <Link to="/auth/login" className="text-blueGray-600">
+                          <small>Already have acoount?</small>
+                        </Link>
                       </span>
                     </label>
                   </div>
@@ -109,7 +125,7 @@ export default function Register() {
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
                     >
                       Create Account
                     </button>

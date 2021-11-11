@@ -8,8 +8,12 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 
 // views
 
-import Login from "../components/Authentication/Login";
-import Register from "../components/Authentication/Register";
+// import Login from "../components/Authentication/Login";
+// import Register from "../components/Authentication/Register";
+
+import Login from "views/auth/Login";
+import Register from "views/auth/Register";
+
 
 export default function Auth() {
   return (
