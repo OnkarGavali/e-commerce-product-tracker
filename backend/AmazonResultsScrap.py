@@ -1,12 +1,14 @@
 # pip install selenium & web_driver_manager before executing
 #finallist returns search results
+
 from selenium import  webdriver
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+option = webdriver.ChromeOptions()
+option.add_argument('headless')
+driver = webdriver.Chrome(ChromeDriverManager().install(),options=option)
 
-#driver.maximize_window()
 driver.get("https://www.amazon.in/")
 driver.implicitly_wait(10)
 driver.find_element(By.XPATH,"//input[contains(@id,'search')]").send_keys("Mi Phone")
@@ -23,21 +25,21 @@ scrap_link = []
 scrap_price = []
 scrap_img = []
 
-for lnk in scrap_img:
-    print(lnk.get_attribute('src'))
+for lnk in product_img:
+    #print(lnk.get_attribute('src'))
     scrap_img.append(lnk.get_attribute('src'))
 
 
 for lnk in product_link:
-    print(lnk.get_attribute('href'))
+    #print(lnk.get_attribute('href'))
     scrap_link.append(lnk.get_attribute('href'))
 
 for res in search_result:
-    print(res.text)
+    #print(res.text)
     scrap_list.append(res.text)
 
 for res in product_price:
-    print(res.text)
+    #print(res.text)
     scrap_price.append(res.text)
 
 finallist = zip(scrap_list,scrap_link,scrap_price,scrap_img)
