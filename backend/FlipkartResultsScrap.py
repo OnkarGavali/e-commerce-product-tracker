@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 
 
-search_value = "maggie "
+search_value = "Shirts"
 option = webdriver.ChromeOptions()
 option.add_argument('headless')
 driver = webdriver.Chrome(ChromeDriverManager().install(),options=option)
@@ -17,26 +17,48 @@ driver.get("https://www.flipkart.com/search?q=" + search_value)
 #driver.find_element(By.XPATH,"//input[contains(@id,'search')]").send_keys(search_value)
 #driver.find_element(By.XPATH,"//input[@value='Go']").click()
 #driver.find_element(By.XPATH,"//span[text()='MI']").click()
-flg = 1
+flg=0
+
+
 try:
-    test = driver.find_element(By.XPATH,"//div[contains(@class,'_4rR01T')]")
+    flg = 3
+    test1 = driver.find_element(By.XPATH, "//div[contains(@class,'_2WkVRV')]")
 except NoSuchElementException:
-    flg = 0
+    flg = 2
+    try:
+        test = driver.find_element(By.XPATH, "//a[contains(@class,'s1Q9rs')]")
+    except NoSuchElementException:
+        flg = 1
+
+if (flg==3):
+        search_result = driver.find_elements(By.XPATH, "//div[contains(@class,'_2WkVRV')]")
+        product_price = driver.find_elements(By.XPATH, "//div[contains(@class,'_30jeq3')]")
+        product_link = driver.find_elements(By.XPATH, "//a[contains(@class,'_2UzuFa')]")
+        product_img = driver.find_elements(By.XPATH, "//img[contains(@class,'_2r_T1I')]")
+
+if(flg == 2):
+    search_result = driver.find_elements(By.XPATH,"//a[contains(@class,'s1Q9rs')]")
+    product_price = driver.find_elements(By.XPATH,"//div[contains(@class,'_30jeq3')]")
+    product_link = driver.find_elements(By.XPATH,"//a[contains(@class,'s1Q9rs')]")
+    product_img = driver.find_elements(By.XPATH, "//img[contains(@class,'_396cs4 _3exPp9')]")
 
 
+
+print(flg)
 
 if(flg==1):
     search_result = driver.find_elements(By.XPATH, "//div[contains(@class,'_4rR01T')]")
     product_price = driver.find_elements(By.XPATH, "//div[contains(@class,'_30jeq3 _1_WHN1')]")
     product_link = driver.find_elements(By.XPATH, "//a[contains(@class,'_1fQZEK')]")
-
-else:
-    search_result = driver.find_elements(By.XPATH,"//a[contains(@class,'s1Q9rs')]")
-    product_price = driver.find_elements(By.XPATH,"//div[contains(@class,'_30jeq3')]")
-    product_link = driver.find_elements(By.XPATH,"//a[contains(@class,'s1Q9rs')]")
+    product_img = driver.find_elements(By.XPATH, "//img[contains(@class,'_396cs4 _3exPp9')]")
 
 
-product_img = driver.find_elements(By.XPATH,"//img[contains(@class,'_396cs4 _3exPp9')]")
+
+
+
+
+
+
 
 
 scrap_list = []
