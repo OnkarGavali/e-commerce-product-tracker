@@ -5,9 +5,10 @@ from selenium import  webdriver
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
+import json
 
 
-search_value = "Shirts"
+search_value = "Mi phone"
 option = webdriver.ChromeOptions()
 option.add_argument('headless')
 driver = webdriver.Chrome(ChromeDriverManager().install(),options=option)
@@ -81,12 +82,25 @@ for res in search_result:
 
 for res in product_price:
     #print(res.text)
-    scrap_price.append(res.text)
+    x = res.text
+    x = x.replace(u'\u20B9' , '')
+    scrap_price.append(x)
 
 finallist = zip(scrap_list,scrap_link,scrap_price,scrap_img)
+l = len(scrap_list)
+rows, cols = (l, 4)
+b=[]
+for i in range(rows):
+    col = []
+    val= [scrap_list[i],scrap_link[i],scrap_price[i],scrap_img[i]]
+    for j in range(cols):
+        col.append(val[j])
+    b.append(col)
 
+a = [u'Product Name', u'Product Link', u'Product Price' ,u'Product Image']
 
-for data in list(finallist):
-    print(data)
+obj = json.dumps([dict(zip(a, row)) for row in b], indent=1)
+print(obj)
+
 
 
