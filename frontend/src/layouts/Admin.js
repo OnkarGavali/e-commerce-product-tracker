@@ -10,7 +10,7 @@ import FooterAdmin from "components/Footers/FooterAdmin.js";
 
 // views
 
-import Dashboard from "views/admin/Dashboard.js";
+import Dashboard from "views/Dashboard.js";
 import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Tables from "views/admin/Tables.js";
@@ -18,8 +18,8 @@ import Tables from "views/admin/Tables.js";
 export default function Admin() {
   return (
     <>
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
+      {/* <Sidebar /> */}
+      <div className="relative bg-blueGray-100">
         <AdminNavbar />
         {/* Header */}
         <HeaderStats />
