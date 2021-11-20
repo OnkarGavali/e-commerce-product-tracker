@@ -32,6 +32,20 @@ export default function CardBarChart() {
             data: [27, 68, 86, 74, 10, 4, 87],
             barThickness: 8,
           },
+          {
+            label: new Date().getFullYear() - 2,
+            fill: false,
+            backgroundColor: "#000",
+            borderColor: "#000",
+            data: [13, 100, 0, 27, 55, 60, 87],
+          },
+           {
+            label: new Date().getFullYear() - 3,
+            fill: false,
+            backgroundColor: "#060606",
+            borderColor: "#05005",
+            data: [130, 100, 110, 127, 155, 160, 187],
+          },
         ],
       },
       options: {

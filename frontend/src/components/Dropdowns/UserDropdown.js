@@ -28,11 +28,13 @@ const UserDropdown = () => {
       >
         <div className="items-center flex">
           <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-            <img
-              alt="..."
-              className="w-full rounded-full align-middle border-none shadow-lg"
-              src={require("assets/img/team-1-800x800.jpg").default}
-            />
+           
+            <lord-icon
+              src="https://cdn.lordicon.com/dxjqoygy.json"
+              trigger="hover"
+              colors="primary:#121331,secondary:#08a88a"
+              style={{width:"250px",height:"250px",color:"#fff"}}>
+          </lord-icon>
           </span>
         </div>
       </a>
