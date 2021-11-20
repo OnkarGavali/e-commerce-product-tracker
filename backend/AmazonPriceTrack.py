@@ -18,12 +18,24 @@ def getAmazonPrice(url):
     except NoSuchElementException:
         product_price = driver.find_element(By.XPATH, "//span[contains(@id,'priceblock_ourprice')]")
 
+    p_img = driver.find_element(By.XPATH, "//img[contains(@class,'a-dynamic-image ')]")
+
+
+
+    product_img = p_img.get_attribute('src')
+
+    print(product_img)
     print(search_result.text)
     price = product_price.text.replace(u'\u20B9', '')
     price = price.replace(',','')
     price = (float(price))
     print(price)
-    priceList.append(price)
-    print(priceList)
+    res = {
+        "Name" : search_result.text,
+        "Price": price,
+        "Image": product_img
+    }
+    print(res)
+    return res
 
 getAmazonPrice(url)
