@@ -3,6 +3,8 @@ from flask_cors import CORS
 from AmazonResultsScrap import getAmazonResults
 from FlipkartResultsScrap import getFlipkartSearch
 from Results import getAllResults
+from AmazonPriceTrack import getAmazonPrice
+from backend.FlipkartPriceTrack import getFlipkartPrice
 
 app = Flask(__name__)
 CORS(app)
@@ -23,9 +25,22 @@ def getResults(search):
 
 @app.route('/pricecheck', methods=["POST"])
 def price_check():
+    websiteType = request.json['type']
+    url = request.json['url']
+    if(websiteType == "amazon"):
+        res = getAmazonPrice(url)
+    elif (websiteType == "flipkart"):
+        res= getFlipkartPrice(url)
+    return jsonify(res)
+
+@app.route('/sendmail', methods=["POST"])
+def a():
+    email = request.json['email']
     websiteType = request.json['websiteType']
     url = request.json['url']
+    price = request.json['price']
     url =url+':url'
+   
     return jsonify({"web":websiteType,"type":'aa',"u":url})
 
 

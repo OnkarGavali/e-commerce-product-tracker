@@ -2,7 +2,8 @@ import React from 'react'
 
 // components
 
-import TableDropdown from "components/Dropdowns/TableDropdown.js";
+
+import { DashboardProductTableDropdown } from 'components/Dropdowns/DashboardProductTableDropdown';
 
 export const ProductTable = () => {
     return (
@@ -63,7 +64,7 @@ export const ProductTable = () => {
                         46,53%
                         </td>
                         <td className="border-t-0 px-1 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                            <TableDropdown />
+                            <DashboardProductTableDropdown />
                         </td>
                     </tr>
                     <tr>

@@ -24,18 +24,18 @@ def getAmazonPrice(url):
 
     product_img = p_img.get_attribute('src')
 
-    print(product_img)
-    print(search_result.text)
+    #print(product_img)
+    #print(search_result.text)
     price = product_price.text.replace(u'\u20B9', '')
     price = price.replace(',','')
     price = (float(price))
-    print(price)
+    #print(price)
     res = {
         "Name" : search_result.text,
         "Price": price,
         "Image": product_img
     }
-    print(res)
+    #print(res)
     return res
 
-getAmazonPrice(url)
+#getAmazonPrice(url)

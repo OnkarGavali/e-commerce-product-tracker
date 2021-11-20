@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createPopper } from "@popperjs/core";
-import TableDropdown from "components/Dropdowns/TableDropdown";
+
+import { ProductProfileDropdown } from "components/Dropdowns/ProdcutProfileDropdown";
 
 // components
 
@@ -85,9 +86,9 @@ export default function ProductProfile({setEditFormRef}) {
                 {" "}
                 <span className="mb-2 text-blueGray-600">
                   
-                  <td className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
+                  <span className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                   <i className="fas fa-rupee-sign mr-2 text-sm text-blueGray-400"></i>4000
-                  </td>
+                  </span>
                 </span>
 
 
@@ -95,15 +96,15 @@ export default function ProductProfile({setEditFormRef}) {
               
               <div className="w-full px-4 flex flex-wrap justify-between m-2">
                 <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-blueGray-600 bg-blueGray-200 uppercase last:mr-0 mr-1">
-                  Treshold Status
+                  Product Status
                 </span>
                 {" "}
                 <span className="mb-2 text-blueGray-600">
-                  <td className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
+                  <span className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                   <i className="fas fa-circle text-emerald-500 mr-2"></i>
                       Active
-                    <TableDropdown />
-                  </td>
+                    <ProductProfileDropdown />
+                  </span>
                 </span>
               </div>
               <div className="w-full px-4 flex flex-wrap justify-between m-2">
@@ -112,10 +113,10 @@ export default function ProductProfile({setEditFormRef}) {
                 </span>
                 {" "}
                 <span className="mb-2 text-blueGray-600">
-                  <td className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
+                  <span className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                    <i className="fas fa-circle text-red-500 mr-2"></i> Inactive
-                    <TableDropdown />
-                  </td>
+                    <ProductProfileDropdown />
+                  </span>
                 </span>
               </div>
 

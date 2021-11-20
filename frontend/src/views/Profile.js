@@ -12,7 +12,6 @@ function Profile({currentUser}) {
   return (
     <>
       <Navbar transparent />
-      {console.log(currentUser)}
       <main className="profile-page">
         <section className="relative block h-500-px">
           <div

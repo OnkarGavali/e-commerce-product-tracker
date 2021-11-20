@@ -30,7 +30,6 @@ def getFlipkartPrice(url):
     "Price": price,
     "Image": product_img
     }
-    print(res)
+    #print(res)
     return res
 
-getFlipkartPrice(url)
