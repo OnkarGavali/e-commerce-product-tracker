@@ -11,6 +11,7 @@ function CardBarChart({chartProductList}) {
     currentDayList = [daylist[day], ...daylist.slice(day+1), ...daylist.slice(0,day),daylist[day]]
     
     
+    
     let config = {
       type: "bar",
       data: {
