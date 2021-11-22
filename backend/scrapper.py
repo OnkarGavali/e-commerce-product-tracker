@@ -36,7 +36,7 @@ def checkPrice(url):
     }
     return thisdict
 
-def send_mail(url):
+def send_mail(url,email,price):
     server = smtplib.SMTP('smtp.gmail.com',587)
     server.ehlo()
     server.starttls()
@@ -48,13 +48,12 @@ def send_mail(url):
     msg = f"Subject:{subject}\n\n{body}"
     server.sendmail(
         'malushreyash@gmail.com',
-        'shreyashmalu2607@gmail.com',
+        email,
         msg
     )
     print("Hey Email has been sent")
     server.quit()
 
-a = checkPrice(URL)
-print(a)
+
 # print(a.__class__.title)
     # time.sleep(60*60*24)

@@ -34,7 +34,7 @@ const App = ({currentUser, setCurrentUser}) => {
             } else {
                 setCurrentUser(userAuth)
             }
-            console.log(currentUser)
+            //console.log(currentUser)
         })
         return () => {
             unSubscribeFromAuth();

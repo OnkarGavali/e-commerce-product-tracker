@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import TableDropdown from "components/Dropdowns/TableDropdown.js";
 
-export const ProfileTable = ({ color }) => {
+export const ProfileTable = ({ productList, color }) => {
     return (
         <>
           <div

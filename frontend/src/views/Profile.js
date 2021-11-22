@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
 import { connect } from "react-redux";
 import { auth } from "firebase/firebase.utils";
-import CardTable from "components/Cards/CardTable";
 import { Link } from "react-router-dom";
 import { ProfileTable } from "components/ProfileTable/ProfileTable";
+import { getUrlList } from "utils/firebaseUserData.utils";
+import { rankProductList } from "utils/DataCooking.utils";
 
 function Profile({currentUser}) {
+  
+  const [productList, setProductList] = useState([])
+  
+  useEffect( async () => {
+        const getProductList = await getUrlList(currentUser)
+        .then((pro)=>{ return rankProductList(pro)})
+        setProductList(getProductList)
+    }, [])
+  
+    useEffect(() => {
+      console.log(productList)
+    }, [productList])
+
   return (
     <>
       <Navbar transparent />
@@ -74,7 +88,7 @@ function Profile({currentUser}) {
                           22
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          Friends
+                          Current Product
                         </span>
                       </div>
                       <div className="mr-4 p-3 text-center">
@@ -100,11 +114,18 @@ function Profile({currentUser}) {
                 <div className="mt-10 border-t border-blueGray-200 bg-blueGray-100" >
                   <div className="flex flex-wrap mt-2 py-10" >
                     <div className="w-full mb-1 px-4">
-                      <ProfileTable />
+                      {
+                        productList.length ? (
+                          <ProfileTable productList={productList}/>
+                        ) : (
+                          null
+                        )
+                      }
+                      
                     </div>
                     <div className="w-full  px-4 text-center">
                       <Link
-                        to="admin/dashboard"
+                        to="dashboard"
                         className="font-normal text-lightBlue-500"
                       > 
                        Go to DashBoard
