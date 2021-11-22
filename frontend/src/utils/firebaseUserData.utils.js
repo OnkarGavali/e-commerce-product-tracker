@@ -1,4 +1,5 @@
 import { firestore } from "firebase/firebase.utils";
+import { ActionOnPriceChange } from "./DataCooking.utils";
 import { priceCheck, sendMail } from "./PriceCheckAPI";
 
 export const addUrlList =  async (userAuth, urlData) => {
@@ -17,7 +18,7 @@ export const addUrlList =  async (userAuth, urlData) => {
             await urlRef.add({
                 productName:urlData.productName,
                 type:urlData.type,
-                UserProductNickName:urlData.UserProductNickName,
+                ProductTagName:urlData.ProductTagName,
                 productUrl:urlData.url,
                 imageUrl:urlData.imageUrl,
                 currentPrice:urlData.currentPrice,
@@ -37,25 +38,40 @@ export const getUrlList =  async (userAuth ) =>{
     if(!userAuth){
         return;
     }
-    const li = [];
+    let li = [];
     const urlRef = firestore.collection(`users/${userAuth.id}/urlDataCollection`)
     const urlSnapshot = await urlRef.get()
-    console.log(urlSnapshot)
+    //console.log(urlSnapshot)
     if(urlSnapshot.size){
         try{
-            await urlRef.get()
-            .then(querySnapshot => {
-                querySnapshot.docs.map(doc => {
-                //priceCheck({...doc.data()})
-                li.push({id:doc.id, ...doc.data()})
-                //sendMail({userEmail: userAuth.email, ...doc.data()})
-                });
+                urlSnapshot.docs.map(  doc => {
+                const data = ActionOnPriceChange({id:doc.id, ...doc.data()})
+                console.log(doc.data(),data,"kkkkkkkkkkkkkkkkkkk")
+                if(data != null){
+                    if(doc.data().activeStatus){
+                        if(doc.data().thresholdAlertStatus)
+                        {
+                            if(data.currentPrice < doc.data().thresholdValue){
+                                sendMail({userEmail:userAuth.email,...data})
+                            }
+                        } else {
+                            sendMail({userEmail:userAuth.email,...data})
+                        }
+                    }
+                    console.log("cP",data.currentPrice,doc.data().currentPrice)
+                    updateUrlList(userAuth,data)
+                    li.push(data)
+                } else {
+                    li.push({id:doc.id, ...doc.data()})
+                    console.log("aaL",{id:doc.id, ...doc.data()},li)
+                }
             });
+            
         } catch( error ){
             console.log('error creating user',error.message)
         }
     }
-    //console.log(li)
+    console.log(li)
     return li;
 }
 
@@ -65,35 +81,27 @@ export const updateUrlList =  async (userAuth, urlData) =>{
     if(!userAuth){
         return;
     }
-    const urlRef = firestore.doc(`users/${userAuth.uid}/urlDataCollection/${urlData.id}`)
-    console.log(`users/${userAuth.id}/urlDataCollection/${urlData.id}`)
+    const updatedDate = new Date();
+    const urlRef = firestore.doc(`users/${userAuth.id}/urlDataCollection/${urlData.id}`)
+    //console.log(`users/${userAuth.id}/urlDataCollection/${urlData.id}`)
     const urlSnapshot = await urlRef.get()
     if(urlSnapshot.exists){
-        console.log("hi")
-        console.log((urlSnapshot))
+        // console.log("hi")
+        // console.log((urlSnapshot))
         console.log((urlSnapshot.data()))
         try{
             await urlRef.update({
-                productName:"aaaaaa",
-                UserProductTagName:"tagName",
+                productName:urlData.productName,
+                ProductTagName:urlData.ProductTagName,
                 type:urlData.type,
-                productUrl:urlData.url,
-                imageUrl:"aaaaaaaaaaaaaaaaazzzz",
-                currentPrice:urlData.url,
-                prices:{
-                    0:5014,
-                    1:5014,
-                    2:5014,
-                    3:null,
-                    4:5013,
-                    5:5014,
-                    6:5014,
-                    7:4999
-                },
-                activeStatus:true,
-                thresholdValue:99999,
-                thresholdAlertStatus:false,
-                lastUpdatedDate: urlData.lastUpdate
+                productUrl:urlData.productUrl,
+                imageUrl:urlData.imageUrl,
+                currentPrice:urlData.currentPrice,
+                prices: urlData.prices,
+                activeStatus:urlData.activeStatus,
+                thresholdValue:urlData.thresholdValue,
+                thresholdAlertStatus:urlData.thresholdAlertStatus,
+                lastUpdatedDate: urlData.lastUpdatedDate
             })
         } catch( error){
             console.log('error creating user',error.message)

@@ -26,9 +26,9 @@ def getFlipkartPrice(url):
     price = (int(price))
     #print(price)
     res = {
-    "Name": search_result.text,
-    "Price": price,
-    "Image": product_img
+    "name": search_result.text,
+    "price": price,
+    "image": product_img
     }
     #print(res)
     return res

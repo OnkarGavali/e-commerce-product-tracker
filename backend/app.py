@@ -1,27 +1,10 @@
 from flask import Flask, json, jsonify, request
 from flask_cors import CORS, cross_origin
-from AmazonResultsScrap import getAmazonResults
-from FlipkartResultsScrap import getFlipkartSearch
-from Results import getAllResults
 from AmazonPriceTrack import getAmazonPrice
 from FlipkartPriceTrack import getFlipkartPrice
 from scrapper import send_mail
 app = Flask(__name__)
 CORS(app, support_credentials = True)
-
-@app.route('/get/amazon/<search>', methods=["GET"])
-def get_AmazonResults(search):
-    return getAmazonResults(search)
-
-@app.route('/get/flipkart/<search>', methods=["GET"])
-def get_FlipkartResults(search):
-    return getFlipkartSearch(search)
-
-@app.route('/get/results/<search>', methods=["GET"])
-def getResults(search):
-    return getAllResults(search)
-
-
 
 @app.route('/pricecheck', methods=["POST"])
 @cross_origin(supports_credentials = True)
@@ -44,7 +27,6 @@ def a():
     websiteType = request.json['type']
     url = request.json['url']
     price = request.json['price']
-    url =url+':url'
     send_mail(url,email,price)
     response = jsonify({"web":websiteType,"type":'aa',"u":url})
     response.headers['Access-Control-Allow-Origin'] = '*'

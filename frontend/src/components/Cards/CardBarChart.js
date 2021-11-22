@@ -1,20 +1,20 @@
 import React from "react";
 import Chart from "chart.js";
+import { connect } from "react-redux";
 
-export default function CardBarChart() {
+function CardBarChart({chartProductList}) {
+ 
   React.useEffect(() => {
+    const date = new.Date();
+    const day = date.getDay()
+    const daylist = [ "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    currentDayList = [daylist[day], ...daylist.slice(day+1), ...daylist.slice(0,day),daylist[day]]
+    
+    
     let config = {
       type: "bar",
       data: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-        ],
+        labels: daylist,
         datasets: [
           {
             label: new Date().getFullYear(),
@@ -137,3 +137,10 @@ export default function CardBarChart() {
     </>
   );
 }
+const mapStateToProps = state => ({
+  chartProductList : state.chartProductList.chartProductList,
+})
+
+
+
+export default connect(mapStateToProps)(CardBarChart) 

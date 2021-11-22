@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
-import { getUrlList } from 'utils/firebaseUserData.utils';
+import { ActionOnPriceChange } from 'utils/DataCooking.utils';
 
 const config = {
   apiKey: "AIzaSyDGwdNT5V2s1Y8Wpfdv6tXcu33GTBplYz0",
@@ -33,7 +33,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         } catch( error){
             console.log('error creating user',error.message)
         }
-       
     }
     //console.log(await urlList(userAuth,{type:"amezon",url:"url1"}))
     //await updateUrlList(userAuth,{type:"amezon",url:"url1",id:"ezXbpIFcmzGLtA3PIF3d"})
@@ -60,6 +59,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     //     }))
 
     //getUrlList(userAuth)
+    //ActionOnPriceChange()
     return userRef;
     
 }

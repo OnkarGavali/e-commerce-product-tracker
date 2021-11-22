@@ -1,4 +1,4 @@
-import axios from 'axios'
+
 
 export const priceCheck = async (ProductData)=>  {
     const dataToSend = { 
@@ -6,7 +6,8 @@ export const priceCheck = async (ProductData)=>  {
         url:ProductData.productUrl
     }
     //console.log(dataToSend)
-    const data = await fetch('/pricecheck', {
+    let tmp = {}
+    await fetch('/pricecheck', {
             'method' : "POST",
             headers: {
                 "Content-Type" : 'application/json',
@@ -15,10 +16,17 @@ export const priceCheck = async (ProductData)=>  {
             },
             body: JSON.stringify(dataToSend)
         })
-        .then(resp => {return  resp.json()})
+        .then(async resp => {tmp = await resp.json()})
         .catch(e=>console.log("e",e))
-    //console.log(data)
-    return data;
+    
+    // const finalData = {
+    //     price:data.price,
+    //     ImageUrl : data.image,
+    //     productName: data.name
+    // }
+    // console.log(data,typeof(data.price),finalData)
+    //console.log(tmp)
+    return tmp;
 }
 
 export const sendMail = async (ProductData) => {
@@ -28,7 +36,7 @@ export const sendMail = async (ProductData) => {
         price: ProductData.currentPrice,
         email: ProductData.userEmail
     }
-    console.log(dataToSend)
+    //console.log(dataToSend)
     const data = await fetch('/sendmail', {
             'method' : "POST",
             headers: {
@@ -40,5 +48,5 @@ export const sendMail = async (ProductData) => {
         })
         .then(resp => {return  resp.json()})
         .catch(e=>console.log("e",e))
-        console.log(data)
+    //console.log(data)
 }

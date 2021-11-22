@@ -8,20 +8,25 @@ import { Link } from "react-router-dom";
 import { ProfileTable } from "components/ProfileTable/ProfileTable";
 import { getUrlList } from "utils/firebaseUserData.utils";
 import { rankProductList } from "utils/DataCooking.utils";
+import { setCurrentProductList } from "redux/userProductCollection/userProductCollectionActions";
 
-function Profile({currentUser}) {
+function Profile({currentUser,setCurrentProductList }) {
   
   const [productList, setProductList] = useState([])
   
-  useEffect( async () => {
-        const getProductList = await getUrlList(currentUser)
-        .then((pro)=>{ return rankProductList(pro)})
-        setProductList(getProductList)
+  useEffect(  () => {
+        const getProductList =  getUrlList(currentUser)
+        .then((pro)=>{ 
+          const li = rankProductList(pro)
+          setProductList(li)
+          setCurrentProductList(li)
+        })
     }, [])
   
     useEffect(() => {
       console.log(productList)
     }, [productList])
+
 
   return (
     <>
@@ -85,26 +90,12 @@ function Profile({currentUser}) {
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          22
+                         {
+                           productList ? productList.length : 0
+                         }
                         </span>
                         <span className="text-sm text-blueGray-400">
                           Current Product
-                        </span>
-                      </div>
-                      <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          10
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Photos
-                        </span>
-                      </div>
-                      <div className="lg:mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          89
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Comments
                         </span>
                       </div>
                     </div>
@@ -131,12 +122,8 @@ function Profile({currentUser}) {
                        Go to DashBoard
                       </Link>
                     </div>
-            
                   </div>
                 </div>
-
-          
-
               </div>
             </div>
           </div>
@@ -148,8 +135,12 @@ function Profile({currentUser}) {
 }
 
 const mapStateToProps = state => ({
-    currentUser : state.user.currentUser
+    currentUser : state.user.currentUser,
+    currentProductList : state.productList.currentProductList
 })
 
+const mapDispatchToProps = dispatch => ({
+  setCurrentProductList : productList => dispatch(setCurrentProductList(productList))
+})
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
