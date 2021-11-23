@@ -4,11 +4,11 @@ import React, { useRef, useState } from "react";
 
 import CardLineChart from "components/Cards/CardLineChart.js";
 import CardBarChart from "components/Cards/CardBarChart.js";
-import { ProductTable } from "components/Dashboard/ProductTable";
-import CardTable from "components/Cards/CardTable";
-import { UrlInputBox } from "components/Dashboard/UrlInputBox";
+import ProductTable from "components/Dashboard/ProductTable";
+import UrlInputBox from "components/Dashboard/UrlInputBox";
 import ProductProfile from "components/Dashboard/ProductProfile";
 import ChartProductTable from "components/Dashboard/ChartProductTable";
+
 
 export default function Dashboard() {
   

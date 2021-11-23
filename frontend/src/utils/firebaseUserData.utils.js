@@ -6,7 +6,6 @@ export const addUrlList =  async (userAuth, urlData) => {
     if(!userAuth){
         return;
     }
-    const li = [];
     const userRef =  firestore.doc(`users/${userAuth.id}`)
     const urlRef = firestore.collection(`users/${userAuth.uid}/urlDataCollection`)
     const updatedDate = new Date();
@@ -46,7 +45,6 @@ export const getUrlList =  async (userAuth ) =>{
         try{
                 urlSnapshot.docs.map(  doc => {
                 const data = ActionOnPriceChange({id:doc.id, ...doc.data()})
-                console.log(doc.data(),data,"kkkkkkkkkkkkkkkkkkk")
                 if(data != null){
                     if(doc.data().activeStatus){
                         if(doc.data().thresholdAlertStatus)
@@ -54,19 +52,16 @@ export const getUrlList =  async (userAuth ) =>{
                             if(data.currentPrice < doc.data().thresholdValue){
                                 sendMail({userEmail:userAuth.email,...data})
                             }
-                        } else {
+                        } else if(data.currentPrice == data.prices[7] ) {
                             sendMail({userEmail:userAuth.email,...data})
                         }
                     }
-                    console.log("cP",data.currentPrice,doc.data().currentPrice)
                     updateUrlList(userAuth,data)
                     li.push(data)
                 } else {
                     li.push({id:doc.id, ...doc.data()})
-                    console.log("aaL",{id:doc.id, ...doc.data()},li)
                 }
             });
-            
         } catch( error ){
             console.log('error creating user',error.message)
         }
@@ -75,19 +70,13 @@ export const getUrlList =  async (userAuth ) =>{
     return li;
 }
 
-
-
 export const updateUrlList =  async (userAuth, urlData) =>{
     if(!userAuth){
         return;
     }
-    const updatedDate = new Date();
     const urlRef = firestore.doc(`users/${userAuth.id}/urlDataCollection/${urlData.id}`)
-    //console.log(`users/${userAuth.id}/urlDataCollection/${urlData.id}`)
     const urlSnapshot = await urlRef.get()
     if(urlSnapshot.exists){
-        // console.log("hi")
-        // console.log((urlSnapshot))
         console.log((urlSnapshot.data()))
         try{
             await urlRef.update({

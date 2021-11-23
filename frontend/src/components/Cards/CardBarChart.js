@@ -5,49 +5,35 @@ import { connect } from "react-redux";
 function CardBarChart({chartProductList}) {
  
   React.useEffect(() => {
-    const date = new.Date();
+    const date = new Date();
     const day = date.getDay()
     const daylist = [ "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    currentDayList = [daylist[day], ...daylist.slice(day+1), ...daylist.slice(0,day),daylist[day]]
+    const currentDayList = [daylist[day], ...daylist.slice(day+1), ...daylist.slice(0,day),daylist[day]]
+    const color = ["#ed64a6","#4c51bf","#ffaa00","#4dff4d","#3366ff"]
     
-    
+    let i = 0 
+    const dataset = [] 
+    chartProductList.map((product) => {
+      const li= []
+      product.prices.map((price)=>{
+        li.push(price)
+      })
+      dataset.push({
+        label:  product.ProductTagName,
+        backgroundColor: color[i],
+        borderColor: color[i],
+        data:li,
+        fill: false,
+        barThickness: 8,
+      })
+    })
+
     
     let config = {
       type: "bar",
       data: {
-        labels: daylist,
-        datasets: [
-          {
-            label: new Date().getFullYear(),
-            backgroundColor: "#ed64a6",
-            borderColor: "#ed64a6",
-            data: [30, 78, 56, 34, 100, 45, 13],
-            fill: false,
-            barThickness: 8,
-          },
-          {
-            label: new Date().getFullYear() - 1,
-            fill: false,
-            backgroundColor: "#4c51bf",
-            borderColor: "#4c51bf",
-            data: [27, 68, 86, 74, 10, 4, 87],
-            barThickness: 8,
-          },
-          {
-            label: new Date().getFullYear() - 2,
-            fill: false,
-            backgroundColor: "#000",
-            borderColor: "#000",
-            data: [13, 100, 0, 27, 55, 60, 87],
-          },
-           {
-            label: new Date().getFullYear() - 3,
-            fill: false,
-            backgroundColor: "#060606",
-            borderColor: "#05005",
-            data: [130, 100, 110, 127, 155, 160, 187],
-          },
-        ],
+        labels: currentDayList,
+        datasets: dataset,
       },
       options: {
         maintainAspectRatio: false,
@@ -120,10 +106,10 @@ function CardBarChart({chartProductList}) {
           <div className="flex flex-wrap items-center">
             <div className="relative w-full max-w-full flex-grow flex-1">
               <h6 className="uppercase text-blueGray-400 mb-1 text-xs font-semibold">
-                Performance
+                Overview-Bar
               </h6>
               <h2 className="text-blueGray-700 text-xl font-semibold">
-                Total orders
+               Product Price graph
               </h2>
             </div>
           </div>
@@ -138,10 +124,9 @@ function CardBarChart({chartProductList}) {
     </>
   );
 }
+
 const mapStateToProps = state => ({
   chartProductList : state.chartProductList.chartProductList,
 })
-
-
 
 export default connect(mapStateToProps)(CardBarChart) 

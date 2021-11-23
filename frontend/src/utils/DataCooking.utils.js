@@ -33,19 +33,25 @@ export const ActionOnPriceChange  =  (product) => {
         7:null
     }
    
-    let i=0;
+    let i=0,limit=todaysDate-product.lastUpdatedDate;
     const currentdata = priceCheck(product);
-    console.log(currentdata)
-    if(todaysDate-product.lastUpdatedDate>0){
-        for(;i<(8-(todaysDate-product.lastUpdatedDate));i++)
+    if(todaysDate-product.lastUpdatedDate>31)
+    {
+        limit=10
+    }
+    if(limit>0){
+        for(;i<(8-(limit));i++)
         {
-            priceData[i] = product.prices[i+todaysDate-product.lastUpdatedDate] 
+            priceData[i] = product.prices[i+limit] 
         }
-    } else if(todaysDate-product.lastUpdatedDate == 0) {
+    } else if(limit == 0) {
         if(product.currentPrice > currentdata.price )
         {
             priceData= product.prices
             priceData[7] = currentdata.price;
+        }else if(product.currentPrice < currentdata.price) {
+            newData.currentPrice = currentdata.price
+            return newData
         }else{
             return null
         }
@@ -53,6 +59,5 @@ export const ActionOnPriceChange  =  (product) => {
     newData.prices = priceData
     newData.currentPrice = currentdata.price
     newData.lastUpdatedDate = todaysDate
-    //console.log("newData",newData)
     return newData
 }

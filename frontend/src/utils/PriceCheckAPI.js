@@ -19,13 +19,6 @@ export const priceCheck = async (ProductData)=>  {
         .then(async resp => {tmp = await resp.json()})
         .catch(e=>console.log("e",e))
     
-    // const finalData = {
-    //     price:data.price,
-    //     ImageUrl : data.image,
-    //     productName: data.name
-    // }
-    // console.log(data,typeof(data.price),finalData)
-    //console.log(tmp)
     return tmp;
 }
 
@@ -36,7 +29,6 @@ export const sendMail = async (ProductData) => {
         price: ProductData.currentPrice,
         email: ProductData.userEmail
     }
-    //console.log(dataToSend)
     const data = await fetch('/sendmail', {
             'method' : "POST",
             headers: {
@@ -48,5 +40,4 @@ export const sendMail = async (ProductData) => {
         })
         .then(resp => {return  resp.json()})
         .catch(e=>console.log("e",e))
-    //console.log(data)
 }

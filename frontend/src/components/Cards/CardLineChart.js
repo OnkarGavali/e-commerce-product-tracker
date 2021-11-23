@@ -1,50 +1,37 @@
 import React from "react";
 import Chart from "chart.js";
+import { connect } from "react-redux";
 
-export default function CardLineChart() {
+function CardLineChart({chartProductList}) {
   React.useEffect(() => {
+    const date = new Date();
+    const day = date.getDay()
+    const daylist = [ "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    const currentDayList = [daylist[day], ...daylist.slice(day+1), ...daylist.slice(0,day),daylist[day]]
+    const color = ["#ed64a6","#4c51bf","#fff","#4dff4d","#3366ff"]
+    
+    let i = 0 
+    const dataset = [] 
+    chartProductList.map((product) => {
+      const li= []
+      product.prices.map((price)=>{
+        li.push(price)
+      })
+      dataset.push({
+        label: product.ProductTagName,
+        backgroundColor: color[i],
+        borderColor: color[i],
+        data:li,
+        fill: false
+      })
+    })
+    
+    
     var config = {
       type: "line",
       data: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-        ],
-        datasets: [
-          {
-            label: new Date().getFullYear(),
-            backgroundColor: "#4c51bf",
-            borderColor: "#4c51bf",
-            data: [65, 78, 66, 44, 56, 67, 75],
-            fill: false,
-          },
-          {
-            label: new Date().getFullYear() - 1,
-            fill: false,
-            backgroundColor: "#fff",
-            borderColor: "#fff",
-            data: [40, 68, 86, 74, 56, 60, 87],
-          },
-          {
-            label: new Date().getFullYear() - 2,
-            fill: false,
-            backgroundColor: "#000",
-            borderColor: "#000",
-            data: [13, 100, NaN, 27, 55, 60, 87],
-          },
-           {
-            label: new Date().getFullYear() - 3,
-            fill: false,
-            backgroundColor: "#000",
-            borderColor: "#000",
-            data: [130, 100, 110, 127, 155, 160, 187],
-          },
-        ],
+        labels: currentDayList,
+        datasets: dataset,
       },
       options: {
         maintainAspectRatio: false,
@@ -78,7 +65,7 @@ export default function CardLineChart() {
               display: true,
               scaleLabel: {
                 display: false,
-                labelString: "Month",
+                labelString: "Days",
                 fontColor: "white",
               },
               gridLines: {
@@ -127,9 +114,9 @@ export default function CardLineChart() {
           <div className="flex flex-wrap items-center">
             <div className="relative w-full max-w-full flex-grow flex-1">
               <h6 className="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
-                Overview
+                Overview-Line
               </h6>
-              <h2 className="text-white text-xl font-semibold">Sales value</h2>
+              <h2 className="text-white text-xl font-semibold">Product Price graph</h2>
             </div>
           </div>
         </div>
@@ -143,3 +130,9 @@ export default function CardLineChart() {
     </>
   );
 }
+
+const mapStateToProps = state => ({
+  chartProductList : state.chartProductList.chartProductList,
+})
+
+export default connect(mapStateToProps)(CardLineChart);
