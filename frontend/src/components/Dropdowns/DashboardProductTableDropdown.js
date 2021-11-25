@@ -1,6 +1,11 @@
 import React from 'react'
 import { createPopper } from "@popperjs/core";
-export const DashboardProductTableDropdown = () => {
+import { connect } from 'react-redux';
+import { addProductInChart } from 'redux/chartProducts/chartProductsActions';
+import { setEditProductData } from 'redux/editProduct/editProductActions';
+import { setCurrentProduct} from '../../redux/currentProduct/currentProductActions'
+
+const DashboardProductTableDropdown = ({addProductInChart,product,chartProductList,setEditProductData,setEditFormRef,setCurrentProduct}) => {
     // dropdown props
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
     const btnDropdownRef = React.createRef();
@@ -14,6 +19,31 @@ export const DashboardProductTableDropdown = () => {
     const closeDropdownPopover = () => {
         setDropdownPopoverShow(false);
     };
+
+    const handleShowInChart = (e) => {
+        e.preventDefault()
+        if(chartProductList.length>=5)
+        {
+            alert("Only 5 products will be displayed in charts")
+        } else{
+            const checkList = chartProductList.find((pro) => pro.id == product.id)
+            if(!checkList){
+                addProductInChart(product)
+            } else {
+                 alert("Products already in charts")
+            }
+           
+        }
+        closeDropdownPopover()
+    }
+
+    const handleEdit = (e) => {
+        e.preventDefault()
+        setEditProductData(product)
+        closeDropdownPopover()
+        setCurrentProduct(product)
+        setEditFormRef();
+    }
     return (
         <>
             <a
@@ -35,25 +65,25 @@ export const DashboardProductTableDropdown = () => {
                 }
             >
                 <a
-                href="#pablo"
+               
                 className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 }
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => handleShowInChart(e)}
                 >
                 Show in Chart
                 </a>
                 <a
-                href="#pablo"
+                
                 className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 }
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => handleEdit(e)}
                 >
                 Edit
                 </a>
                 <a
-                href="#pablo"
+                
                 className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 }
@@ -65,3 +95,16 @@ export const DashboardProductTableDropdown = () => {
         </>
     )
 }
+
+const mapStateToProps = state => ({
+    chartProductList : state.chartProductList.chartProductList
+})
+
+
+const mapDispatchToProps = dispatch => ({
+    addProductInChart : (product) => dispatch(addProductInChart(product)),
+    setEditProductData : (product) => dispatch(setEditProductData(product)),
+    setCurrentProduct : (product) => dispatch(setCurrentProduct(product))
+})
+
+export default connect( mapStateToProps, mapDispatchToProps )(DashboardProductTableDropdown);

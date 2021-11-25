@@ -1,4 +1,4 @@
-import { CurrentProduct } from "./currentProductActionTypes";
+import { CurrentProduct } from "./currentProductActionTypes"
 
 export const setCurrentProduct = product => ({
     type : CurrentProduct.SET_CURRENT_PRODUCT,

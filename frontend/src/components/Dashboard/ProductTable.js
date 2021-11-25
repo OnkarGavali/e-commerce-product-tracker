@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react'
 // components
 
 
-import { DashboardProductTableDropdown } from 'components/Dropdowns/DashboardProductTableDropdown';
+import DashboardProductTableDropdown from 'components/Dropdowns/DashboardProductTableDropdown';
 import { connect } from 'react-redux';
+import { addProductInChart } from 'redux/chartProducts/chartProductsActions';
 
-const ProductTable = ({currentProductList}) => {
-    const [productList, setProductList] = useState(currentProductList)
-  
+const ProductTable = ({setEditFormRef,currentProductList}) => {
+    const [productList, setProductList] = useState([])
+    const [isLoading, setisLoading] = useState(true)
     useEffect(  () => {
         setProductList(currentProductList)
+        setisLoading(false)
     }, [])
   
     useEffect(() => {
@@ -56,9 +58,8 @@ const ProductTable = ({currentProductList}) => {
                     </thead>
                     <tbody>
                         {
-                            currentProductList ? (
-                                currentProductList.map((product)=> {
-                                    <tr>
+                            currentProductList && (!isLoading) ? (
+                                currentProductList.map((product)=> (<tr key={product.id}>
                                         <th className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
                                         {product.ProductTagName ? (
                                             product.ProductTagName.length >15 ? (product.ProductTagName.slice(0,15)+"...") : product.ProductTagName 
@@ -82,81 +83,22 @@ const ProductTable = ({currentProductList}) => {
                                         46,53%
                                         </td>
                                         <td className="border-t-0 px-1 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                                            <DashboardProductTableDropdown />
+                                            <DashboardProductTableDropdown product={product} setEditFormRef={setEditFormRef}/>
                                         </td>
                                     </tr>
-                            })) : (
-                                <div>NO DATA</div>
+                            ))) : (
+                                <tr>
+                                    <td>
+                                    NO DATA{
+                                    console.log("emty list")
+                                }
+                                </td>
+                                </tr>
+                                
                             )
                         }
                         
-                        
-                   
-                            <tr>
-                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                /argon/index.html
-                                </th>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                3,985
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                319
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <i className="fas fa-arrow-down text-orange-500 mr-4"></i>
-                                46,53%
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <i className="fas fa-arrow-down text-orange-500 mr-4"></i>
-                                46,53%
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                /argon/charts.html
-                                </th>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                3,513
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                294
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <i className="fas fa-arrow-down text-orange-500 mr-4"></i>
-                                36,49%
-                                </td>
-                            </tr>
-                            <tr>
-                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                /argon/tables.html
-                                </th>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                2,050
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                147
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                                50,87%
-                                </td>
-                            </tr>
-                            <tr>
-                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                /argon/profile.html
-                                </th>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                1,795
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                190
-                                </td>
-                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <i className="fas fa-arrow-down text-red-500 mr-4"></i>
-                                46,53%
-                                </td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -172,8 +114,6 @@ const mapStateToProps = state => ({
     currentProductList : state.productList.currentProductList
 })
 
-// const mapDispatchToProps = dispatch => ({
-//     createNewProduct : ( ) => dispatch(createNewProduct())
-// })
+
 
 export default connect(mapStateToProps)(ProductTable);

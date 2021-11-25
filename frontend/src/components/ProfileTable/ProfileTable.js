@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 // components
 
-import TableDropdown from "components/Dropdowns/TableDropdown.js";
 
 export const ProfileTable = ({ productList, color }) => {
   return (
@@ -93,7 +92,7 @@ export const ProfileTable = ({ productList, color }) => {
                 productList.length ? (
 
                   productList.map( (product)=> {
-                    return (<tr>
+                    return (<tr key={product.id}>
                       <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
                         <img
                           src={product.imageUrl}
@@ -128,8 +127,9 @@ export const ProfileTable = ({ productList, color }) => {
                         
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                       
                         {
-                          product.profit ?( (Math.round(product.profit * 100) / 100).toFixed(2) + " %" ): 0 + " %"
+                         (product.profit != -1000) ?( (Math.round(product.profit * 100) / 100).toFixed(2) + " %" ): 0 + " %"
                         }
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">

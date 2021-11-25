@@ -1,12 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { createNewProduct } from '../../redux/editProduct/editProductActions'
 const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
 
     const [insertedUrl, setInsertedUrl] = useState("")
     const [tagName, setTagName] = useState("")
-    const [thresholdValue, setThresholdValue] = useState(null)
+    const [thresholdValue, setThresholdValue] = useState("")
     
+    useEffect(() => {
+        if(editProductData){
+            setInsertedUrl(editProductData.productUrl)
+            setTagName(editProductData.ProductTagName)
+            if(thresholdValue){
+                setThresholdValue(editProductData.thresholdValue)
+            } else {
+                setThresholdValue("")
+            }
+            
+        }
+        
+    }, [editProductData])
     
     const handleSubmit = () => {
         if(insertedUrl.indexOf( "https://www.amazon.in/") !== -1 ) {
@@ -18,7 +31,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
         }
         setInsertedUrl("")
         setTagName("")
-        setThresholdValue(null)
+        setThresholdValue("")
     }
     const handleNewProduct = () => {
         createNewProduct()
@@ -93,7 +106,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
                                 <input
                                     type="text"
                                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                    defaultValue="Lucky"
+                                    placeholder="Lucky"
                                     ref={editFormRef}
                                     value={tagName}
                                     onChange={e => setTagName(e.target.value)}

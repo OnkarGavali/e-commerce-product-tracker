@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 // components
 
 
-import { ChartProductTableDropdown } from "components/Dropdowns/ChartProductTableDropdown";
 
-export default function ChartProductTable({ color }) {
+import { connect } from "react-redux";
+import ChartProductTableDropdown from "components/Dropdowns/ChartProductTableDropdown";
+
+function ChartProductTable({ color, chartProductList }) {
+  
+  useEffect(() => {
+    
+  }, [chartProductList])
   return (
     <>
           <div
@@ -95,324 +101,70 @@ export default function ChartProductTable({ color }) {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                      <img
-                        src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cmFuZG9tfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
-                        className="h-12 w-12 bg-white rounded-full border"
-                        alt="..."
-                      ></img>{" "}
-                      <span
-                        className={
-                          "ml-3 font-bold " +
-                          +(color === "light" ? "text-blueGray-600" : "text-white")
-                        }
-                      >
-                        Argon Design System....
-                      </span>
-                    </th>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      $2,500 USD
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <i className="fas fa-circle text-orange-500 mr-2"></i> pending
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex">
-                        <img
-                          src={require("assets/img/team-1-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-2-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-3-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-4-470x470.png").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex items-center">
-                        <span className="mr-2">60%</span>
-                        <div className="relative w-full">
-                          <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
-                            <div
-                              style={{ width: "60%" }}
-                              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                      <ChartProductTableDropdown />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                      <img
-                        src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
-                        className="h-12 w-12 bg-white rounded-full border"
-                        alt="..."
-                      ></img>{" "}
-                      <span
-                        className={
-                          "ml-3 font-bold " +
-                          +(color === "light" ? "text-blueGray-600" : "text-white")
-                        }
-                      >
-                        Angular Now UI Kit PRO
-                      </span>
-                    </th>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      $1,800 USD
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <i className="fas fa-circle text-emerald-500 mr-2"></i>{" "}
-                      completed
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex">
-                        <img
-                          src={require("assets/img/team-1-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-2-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-3-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-4-470x470.png").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex items-center">
-                        <span className="mr-2">100%</span>
-                        <div className="relative w-full">
-                          <div className="overflow-hidden h-2 text-xs flex rounded bg-emerald-200">
-                            <div
-                              style={{ width: "100%" }}
-                              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                      <ChartProductTableDropdown />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                      <img
-                        src={require("assets/img/sketch.jpg").default}
-                        className="h-12 w-12 bg-white rounded-full border"
-                        alt="..."
-                      ></img>{" "}
-                      <span
-                        className={
-                          "ml-3 font-bold " +
-                          +(color === "light" ? "text-blueGray-600" : "text-white")
-                        }
-                      >
-                        Black Dashboard Sketch
-                      </span>
-                    </th>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      $3,150 USD
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <i className="fas fa-circle text-red-500 mr-2"></i> delayed
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex">
-                        <img
-                          src={require("assets/img/team-1-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-2-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-3-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-4-470x470.png").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex items-center">
-                        <span className="mr-2">73%</span>
-                        <div className="relative w-full">
-                          <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
-                            <div
-                              style={{ width: "73%" }}
-                              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                      <ChartProductTableDropdown />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                      <img
-                        src={require("assets/img/react.jpg").default}
-                        className="h-12 w-12 bg-white rounded-full border"
-                        alt="..."
-                      ></img>{" "}
-                      <span
-                        className={
-                          "ml-3 font-bold " +
-                          +(color === "light" ? "text-blueGray-600" : "text-white")
-                        }
-                      >
-                        React Material Dashboard
-                      </span>
-                    </th>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      $4,400 USD
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <i className="fas fa-circle text-teal-500 mr-2"></i> on
-                      schedule
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex">
-                        <img
-                          src={require("assets/img/team-1-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-2-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-3-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-4-470x470.png").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex items-center">
-                        <span className="mr-2">90%</span>
-                        <div className="relative w-full">
-                          <div className="overflow-hidden h-2 text-xs flex rounded bg-teal-200">
-                            <div
-                              style={{ width: "90%" }}
-                              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                      <ChartProductTableDropdown />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                      <img
-                        src={require("assets/img/vue.jpg").default}
-                        className="h-12 w-12 bg-white rounded-full border"
-                        alt="..."
-                      ></img>{" "}
-                      <span
-                        className={
-                          "ml-3 font-bold " +
-                          +(color === "light" ? "text-blueGray-600" : "text-white")
-                        }
-                      >
-                        React Material Dashboard
-                      </span>
-                    </th>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      $2,200 USD
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <i className="fas fa-circle text-emerald-500 mr-2"></i>{" "}
-                      completed
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex">
-                        <img
-                          src={require("assets/img/team-1-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-2-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-3-800x800.jpg").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                        <img
-                          src={require("assets/img/team-4-470x470.png").default}
-                          alt="..."
-                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                        ></img>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <div className="flex items-center">
-                        <span className="mr-2">100%</span>
-                        <div className="relative w-full">
-                          <div className="overflow-hidden h-2 text-xs flex rounded bg-emerald-200">
-                            <div
-                              style={{ width: "100%" }}
-                              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                      <ChartProductTableDropdown />
-                    </td>
-                  </tr>
+                  {
+                  chartProductList.length ? (
+
+                      chartProductList.map( (product)=> {
+                        return (<tr key={product.id}>
+                          <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                            <img
+                              src={product.imageUrl}
+                              className="h-12 w-12 bg-white rounded-full border"
+                              alt="..."
+                            ></img>{" "}
+                            <span
+                              className={
+                                "ml-3 font-bold " +
+                                +(color === "light" ? "text-blueGray-600" : "text-white")
+                              }
+                            >
+                            {product.ProductTagName.length >15 ? (product.ProductTagName.slice(0,15)+"...") :product.ProductTagName }
+                            </span>
+                          </th>
+                          <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          { product.currentPrice  ? ( product.currentPrice + " Rs." ):  "No Data" }
+                          {console.log(product.currentPrice)}
+                          </td>
+                          <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {
+                              product.activeStatus ? (
+                                <>
+                                  <i className="fas fa-circle text-emerald-500 mr-2"></i> Active
+                                </>
+                              ) : (
+                                <>
+                                  <i className="fas fa-circle text-red-500 mr-2"></i> Inctive
+                                </>
+                              )
+                            }
+                            
+                          </td>
+                          <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          
+                            {
+                            (product.profit != -1000) ?( (Math.round(product.profit * 100) / 100).toFixed(2) + " %" ): 0 + " %"
+                            }
+                          </td>
+                          <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {
+                              product.thresholdAlertStatus ? (
+                                "Inactive"
+                              ) : (
+                                product.thresholdValue
+                              )
+                            }
+                          </td>
+                          <td>
+                            <ChartProductTableDropdown  product={product}/>
+                          </td>
+                        </tr>
+                        )
+                      })
+                      
+                    ) : (
+                      <div> No DATA</div>
+                    )
+                  } 
                 </tbody>
 
               </table>
@@ -430,3 +182,10 @@ ChartProductTable.defaultProps = {
 ChartProductTable.propTypes = {
   color: PropTypes.oneOf(["light", "dark"]),
 };
+
+const mapStateToProps = state => ({
+  chartProductList : state.chartProductList.chartProductList,
+})
+
+
+export default connect(mapStateToProps)(ChartProductTable);

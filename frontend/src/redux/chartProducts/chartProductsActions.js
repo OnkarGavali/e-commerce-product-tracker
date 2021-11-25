@@ -5,7 +5,7 @@ export const addProductInChart = product => ({
     payload : product
 });
 
-export const removeProductFromChart = product_id =>({
+export const removeProductFromChart = product =>({
     type : ChartProductsActionTypes.REMOVE_PRODUCT,
-    payload : product_id
+    payload : product
 })

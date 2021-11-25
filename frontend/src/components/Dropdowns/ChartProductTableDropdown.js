@@ -1,8 +1,10 @@
 import React from 'react'
 import { createPopper } from "@popperjs/core";
+import { connect } from 'react-redux';
+import {  removeProductFromChart } from '../../redux/chartProducts/chartProductsActions';
 
 
-export const ChartProductTableDropdown = () => {
+const ChartProductTableDropdown = ({product, removeProductFromChart}) => {
     
     // dropdown props
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
@@ -18,6 +20,12 @@ export const ChartProductTableDropdown = () => {
     setDropdownPopoverShow(false);
     };
     
+    const handleRemove = (e) => {
+        e.preventDefault()
+        removeProductFromChart(product)
+        closeDropdownPopover()
+        
+    }
     return (
          <>
             <a
@@ -39,11 +47,11 @@ export const ChartProductTableDropdown = () => {
                 }
             >
                 <a
-                href="#pablo"
+               
                 className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 }
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => handleRemove(e)}
                 >
                 Remove
                 </a>
@@ -51,3 +59,10 @@ export const ChartProductTableDropdown = () => {
             </>
     )
 }
+
+
+const mapDispatchToProps = dispatch => ({
+    removeProductFromChart : (product) => dispatch(removeProductFromChart(product))
+})
+
+export default connect( null, mapDispatchToProps )(ChartProductTableDropdown);

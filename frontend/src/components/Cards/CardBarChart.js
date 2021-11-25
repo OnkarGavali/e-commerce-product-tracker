@@ -3,8 +3,9 @@ import Chart from "chart.js";
 import { connect } from "react-redux";
 
 function CardBarChart({chartProductList}) {
- 
+  
   React.useEffect(() => {
+    
     const date = new Date();
     const day = date.getDay()
     const daylist = [ "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -14,10 +15,17 @@ function CardBarChart({chartProductList}) {
     let i = 0 
     const dataset = [] 
     chartProductList.map((product) => {
-      const li= []
-      product.prices.map((price)=>{
-        li.push(price)
-      })
+      let li= []
+      let j=0
+      for(j=0;j<8;j++){
+        let price =  product.prices[j]
+        if(price == null){
+          li.push(NaN)
+        } else{
+          li.push(price)
+        }
+      }
+      
       dataset.push({
         label:  product.ProductTagName,
         backgroundColor: color[i],
@@ -26,6 +34,7 @@ function CardBarChart({chartProductList}) {
         fill: false,
         barThickness: 8,
       })
+      i++
     })
 
     
@@ -98,7 +107,7 @@ function CardBarChart({chartProductList}) {
     };
     let ctx = document.getElementById("bar-chart").getContext("2d");
     window.myBar = new Chart(ctx, config);
-  }, []);
+  }, [chartProductList]);
   return (
     <>
       <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">

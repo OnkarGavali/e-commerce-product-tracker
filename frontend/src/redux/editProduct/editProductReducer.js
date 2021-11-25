@@ -9,7 +9,7 @@ const editProductReducer = ( state = INITIAL_STATE, action ) => {
         case EditProductActionTypes.SET_EDIT_PRODUCT_DATA :
             return ({
                 ...state,
-                editProductData : {...action.payload}
+                editProductData : action.payload
             })
         case EditProductActionTypes.CREATE_NEW_PRODUCT_DATA :
             return({

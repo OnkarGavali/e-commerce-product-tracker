@@ -1,6 +1,6 @@
 import React from 'react'
 import { createPopper } from "@popperjs/core";
-export const ProductProfileDropdown = ({typeState,changeState}) => {
+export const ProductProfileDropdown = ({typeState,changeState, setIsChanged}) => {
     // dropdown props
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
     const btnDropdownRef = React.createRef();
@@ -43,6 +43,7 @@ export const ProductProfileDropdown = ({typeState,changeState}) => {
                             }
                             onClick={() => {
                                 changeState(!typeState);
+                                setIsChanged(true)
                                 closeDropdownPopover();
                             }}
                         >
@@ -55,6 +56,7 @@ export const ProductProfileDropdown = ({typeState,changeState}) => {
                             }
                             onClick={() => {
                                 changeState(!typeState);
+                                setIsChanged(true)
                                 closeDropdownPopover();
                             }}
                         >

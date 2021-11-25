@@ -18,7 +18,7 @@ export const priceCheck = async (ProductData)=>  {
         })
         .then(async resp => {tmp = await resp.json()})
         .catch(e=>console.log("e",e))
-    
+    console.log("tmp",tmp)
     return tmp;
 }
 
@@ -40,4 +40,5 @@ export const sendMail = async (ProductData) => {
         })
         .then(resp => {return  resp.json()})
         .catch(e=>console.log("e",e))
+    
 }

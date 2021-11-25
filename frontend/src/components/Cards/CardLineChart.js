@@ -13,10 +13,16 @@ function CardLineChart({chartProductList}) {
     let i = 0 
     const dataset = [] 
     chartProductList.map((product) => {
-      const li= []
-      product.prices.map((price)=>{
-        li.push(price)
-      })
+      let li= []
+      let j=0
+      for(j=0;j<8;j++){
+        let price =  product.prices[j]
+        if(price == null){
+          li.push(NaN)
+        } else{
+          li.push(price)
+        }
+      }
       dataset.push({
         label: product.ProductTagName,
         backgroundColor: color[i],
@@ -24,6 +30,7 @@ function CardLineChart({chartProductList}) {
         data:li,
         fill: false
       })
+      i++
     })
     
     
@@ -106,7 +113,7 @@ function CardLineChart({chartProductList}) {
     };
     var ctx = document.getElementById("line-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
-  }, []);
+  }, [chartProductList]);
   return (
     <>
       <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700">

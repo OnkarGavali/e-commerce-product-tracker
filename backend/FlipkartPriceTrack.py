@@ -23,7 +23,7 @@ def getFlipkartPrice(url):
     product_img = p_img.get_attribute('src')
     price = product_price.text.replace(u'\u20B9', '')
     price = price.replace(',','')
-    price = (int(price))
+    price = (float(price))
     #print(price)
     res = {
     "name": search_result.text,

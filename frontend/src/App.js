@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -17,9 +17,15 @@ import Index from "views/Index.js";
 import { setCurrentUser } from 'redux/user/userActions';
 import { auth, createUserProfileDocument } from 'firebase/firebase.utils';
 import DashboardLayout from 'layouts/DashboardLayout';
+import { setCurrentProductList } from 'redux/userProductCollection/userProductCollectionActions';
+import { getUrlList } from 'utils/firebaseUserData.utils';
+import { rankProductList } from 'utils/DataCooking.utils';
+import { isConditionalExpression } from 'typescript';
 
 
-const App = ({currentUser, setCurrentUser}) => {
+const App = ({currentUser, setCurrentUser, setCurrentProductList}) => {
+    const [productList, setProductList] = useState(null)
+    //const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         const unSubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
             if (userAuth) {
@@ -35,13 +41,34 @@ const App = ({currentUser, setCurrentUser}) => {
                 setCurrentUser(userAuth)
             }
             //console.log(currentUser)
-        })
+           setProductList(currentUser)
+        }) 
+        
+            
+            
+            
+        
+
         return () => {
             unSubscribeFromAuth();
         }
-        
     }, [])
-
+    useEffect( () => {
+        // if(currentUser){
+        //     const getProductList =  getUrlList(currentUser)
+        //     .then((productli)=>{
+        //         console.log(productli)
+        //         const li = rankProductList(productli)
+        //         .then((finalList)=>{
+        //             if(finalList){
+        //             setCurrentProductList(finalList)
+        //         }
+        //         console.log(finalList)
+        //         })
+                
+        //     })}
+    }, [productList])
+    
     return (
         <React.Fragment>
             <Switch>
@@ -59,11 +86,12 @@ const App = ({currentUser, setCurrentUser}) => {
 }
 
 const mapStateToProps = ({user}) => ({
-  currentUser : user.currentUser 
+  currentUser : user.currentUser
 })
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser : user => dispatch( setCurrentUser(user) )
+  setCurrentUser : user => dispatch( setCurrentUser(user) ),
+  setCurrentProductList : productList => dispatch(setCurrentProductList(productList))
 })
 
 export default connect( mapStateToProps, mapDispatchToProps )(App);

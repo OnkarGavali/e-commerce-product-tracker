@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import 'firebase/compat/auth'
 import { ActionOnPriceChange } from 'utils/DataCooking.utils';
+import { addUrlList } from 'utils/firebaseUserData.utils';
 
 const config = {
   apiKey: "AIzaSyDGwdNT5V2s1Y8Wpfdv6tXcu33GTBplYz0",
@@ -57,6 +58,53 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     //         imageUrl:"https://m.media-amazon.com/images/I/715XlyB-aXL._SX679_.jpg"
 
     //     }))
+
+    //console.log(await urlList(userAuth,{type:"flikart",url:"url1"}))
+    //await updateUrlList(userAuth,{type:"amezon",url:"url1",id:"ezXbpIFcmzGLtA3PIF3d"})
+    //await deleteUrlList(userAuth,{type:"amezon",url:"url1",id:"ezXbpIFcmzGLtA3PIF3d"})
+    //  console.log(await addUrlList(userAuth,{
+    //         type:"flipkart",
+    //         productName:"Slides  (Black 9)",
+    //         productUrl:"https://www.amazon.in/dp/B07G4K7B1G/ref=s9_acsd_hps_bw_c2_x_1_i?pf_rd_m=A1K21FY43GMZF8&pf_rd_s=merchandised-search-3&pf_rd_r=Z9KPZNK8J657A06Q9RKJ&pf_rd_t=101&pf_rd_p=945d1576-d29c-4a80-8a61-2d95793f25c0&pf_rd_i=16368877031",
+    //         ProductTagName:"My brother Slide Slider",
+    //         currentPrice:2095,
+    //         prices:{
+    //             0:2095,
+    //             1:2095,
+    //             2:2015,
+    //             3:2090,
+    //             4:null,
+    //             5:2099,
+    //             6:2085,
+    //             7:2095
+    //         },
+    //         thresholdValue:null,
+    //         imageUrl:"https://rukminim1.flixcart.com/image/714/857/klv7ekw0/slipper-flip-flop/i/k/t/11-cn9675-006nike-nike-black-metallic-gold-black-original-imagyw9ydquxjm8k.jpeg?q=50"
+
+    //     }))
+    
+    // console.log(await addUrlList(userAuth,{
+    //         type:"flipkart",
+    //         productName:"Slides  (Black 9)",
+    //         productUrl:"https://www.amazon.in/dp/B07G4K7B1G/ref=s9_acsd_hps_bw_c2_x_1_i?pf_rd_m=A1K21FY43GMZF8&pf_rd_s=merchandised-search-3&pf_rd_r=Z9KPZNK8J657A06Q9RKJ&pf_rd_t=101&pf_rd_p=945d1576-d29c-4a80-8a61-2d95793f25c0&pf_rd_i=16368877031",
+    //         ProductTagName:"My brother Slide Slider",
+    //         currentPrice:2095,
+    //         prices:{
+    //             0:2095,
+    //             1:2095,
+    //             2:2015,
+    //             3:2090,
+    //             4:null,
+    //             5:2099,
+    //             6:2085,
+    //             7:2095
+    //         },
+    //         thresholdValue:null,
+    //         imageUrl:"https://rukminim1.flixcart.com/image/714/857/klv7ekw0/slipper-flip-flop/i/k/t/11-cn9675-006nike-nike-black-metallic-gold-black-original-imagyw9ydquxjm8k.jpeg?q=50"
+
+    //     }))
+
+
 
     //getUrlList(userAuth)
     //ActionOnPriceChange()

@@ -10,22 +10,46 @@ import { getUrlList } from "utils/firebaseUserData.utils";
 import { rankProductList } from "utils/DataCooking.utils";
 import { setCurrentProductList } from "redux/userProductCollection/userProductCollectionActions";
 
-function Profile({currentUser,setCurrentProductList }) {
+function Profile({currentUser,currentProductList,setCurrentProductList }) {
   
-  const [productList, setProductList] = useState([])
-  
-  useEffect(  () => {
-        const getProductList =  getUrlList(currentUser)
-        .then((pro)=>{ 
-          const li = rankProductList(pro)
-          setProductList(li)
-          setCurrentProductList(li)
-        })
+  const [productList, setProductList] = useState(currentProductList)
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect( async () => {
+      if(!currentProductList.length){
+        const data = await getUrlList(currentUser)
+            console.log(data.length,data)
+            let rankedList = []
+            if(data[0]){
+                data.map(prod =>{
+                    console.log("hi we are in rankedlist 1st loop")
+                    console.log("rankedlist prices[6]",prod.prices[6])
+                    if(prod && (prod.prices[6]!=null))
+                    {
+                        const priceChangeRate = 100 * (prod.prices[6] - prod.prices[7])/prod.prices[6]
+                        rankedList.push({...prod,profit:priceChangeRate})
+                    } else {
+                        rankedList.push({...prod,profit:-1000})
+                    }
+                } )
+                rankedList.sort((a,b)=> {return a.profit - b.profit})
+            }
+            console.log(rankedList)
+            if(rankedList){
+              setCurrentProductList(rankedList)
+              
+          }    
+      }
+        setProductList(currentProductList)
+        console.log("hi",currentProductList.length) 
+        setIsLoading(false)
+       
     }, [])
   
     useEffect(() => {
-      console.log(productList)
-    }, [productList])
+      if(!isLoading){
+        console.log(productList)
+      }
+    }, [productList,isLoading])
 
 
   return (
@@ -91,7 +115,7 @@ function Profile({currentUser,setCurrentProductList }) {
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                          {
-                           productList ? productList.length : 0
+                           currentProductList ? currentProductList.length : 0
                          }
                         </span>
                         <span className="text-sm text-blueGray-400">
@@ -104,16 +128,23 @@ function Profile({currentUser,setCurrentProductList }) {
                 
                 <div className="mt-10 border-t border-blueGray-200 bg-blueGray-100" >
                   <div className="flex flex-wrap mt-2 py-10" >
-                    <div className="w-full mb-1 px-4">
-                      {
-                        productList.length ? (
-                          <ProfileTable productList={productList}/>
-                        ) : (
-                          null
-                        )
-                      }
-                      
-                    </div>
+                    {
+                      isLoading ? (
+                        <div>a</div>
+                      ) : (
+                        <div className="w-full mb-1 px-4">
+                          {
+                            currentProductList.length ? (
+                              <ProfileTable productList={currentProductList}/>
+                            ) : (
+                              null
+                            )
+                          }
+                          
+                        </div>
+                      )
+                    }
+                    
                     <div className="w-full  px-4 text-center">
                       <Link
                         to="dashboard"
