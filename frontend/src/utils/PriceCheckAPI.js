@@ -24,10 +24,10 @@ export const priceCheck = async (ProductData)=>  {
 
 export const sendMail = async (ProductData) => {
     const dataToSend = { 
-        type:ProductData.type,
         url:ProductData.productUrl,
         price: ProductData.currentPrice,
-        email: ProductData.userEmail
+        email: ProductData.userEmail,
+        name: ProductData.productName
     }
     const data = await fetch('/sendmail', {
             'method' : "POST",
@@ -40,5 +40,4 @@ export const sendMail = async (ProductData) => {
         })
         .then(resp => {return  resp.json()})
         .catch(e=>console.log("e",e))
-    
 }

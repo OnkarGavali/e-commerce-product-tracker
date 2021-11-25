@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
-import { createNewProduct } from '../../redux/editProduct/editProductActions'
-const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
+import { createNewProduct, setEditProductData } from '../../redux/editProduct/editProductActions'
+const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProductData}) => {
 
     const [insertedUrl, setInsertedUrl] = useState("")
     const [tagName, setTagName] = useState("")
@@ -11,7 +11,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
         if(editProductData){
             setInsertedUrl(editProductData.productUrl)
             setTagName(editProductData.ProductTagName)
-            if(thresholdValue){
+            if(editProductData.thresholdValue){
                 setThresholdValue(editProductData.thresholdValue)
             } else {
                 setThresholdValue("")
@@ -33,6 +33,13 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
         setTagName("")
         setThresholdValue("")
     }
+
+    const handleShiftToCreateNew = () =>{
+        setEditProductData()
+        setInsertedUrl("")
+        setTagName("")
+        setThresholdValue("")
+    }
     const handleNewProduct = () => {
         createNewProduct()
     }
@@ -48,12 +55,12 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
                                     <button
                                         className="disabled:bg-lightBlue-100 bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={()=>handleSubmit()}
+                                        onClick={()=>handleShiftToCreateNew()}
                                     >
                                     Add New Product Link
                                     </button>
                                     {
-                                        insertedUrl.length > 0 && tagName > 0 ? (
+                                        insertedUrl.length > 0 && tagName.length > 0 ? (
                                             <button
                                                 className="disabled:bg-lightBlue-100 bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                                 type="button"
@@ -69,7 +76,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
                             ) : (
                                 <>
                                     {
-                                        insertedUrl.length > 0 && tagName > 0 ? (
+                                        insertedUrl.length > 0 && tagName.length > 0 ? (
                                             <button
                                                 className="disabled:bg-lightBlue-100 bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                                 type="button"
@@ -85,8 +92,6 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
                             )
                         }
                             
-                        
-                        
                     </div>
                 </div>
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -101,7 +106,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
                                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                     htmlFor="grid-password"
                                 >
-                                    Give Me The Special Name
+                                    Give Me The Special nick Name <small>(like dad's birthday gift)</small>
                                 </label>
                                 <input
                                     type="text"
@@ -119,7 +124,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
                                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                     htmlFor="grid-password"
                                 >
-                                    Fill me with URL
+                                    Fill me with URL<small> ( Make sure you are inserting correct URL)</small>
                                 </label>
                                 <textarea
                                     type="text"
@@ -137,7 +142,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct}) => {
                                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                         htmlFor="grid-password"
                                     >
-                                        Is there any Perticular Price value below that you want get Notified? <small>(optional)</small>
+                                        Is there any Perticular Price value below that you want get Notified? <small>(optional and initialy service is off)</small>
                                     </label>
                                     <input
                                         type="number"
@@ -162,7 +167,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    createNewProduct : ( ) => dispatch(createNewProduct())
+    createNewProduct : ( ) => dispatch(createNewProduct()),
+    setEditProductData : () => dispatch(setEditProductData())
 })
 
 export  default connect(mapStateToProps, mapDispatchToProps)(UrlInputBox);
