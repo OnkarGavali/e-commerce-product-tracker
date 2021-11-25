@@ -1,3 +1,5 @@
+import time
+
 import firebase_admin
 import smtplib
 from FlipkartPriceTrack import  getFlipkartPrice
@@ -12,6 +14,9 @@ import datetime
 # using now() to get current time
 current_time = datetime.datetime.now()
 db=firestore.client()
+
+
+
 
 def send_mail(url,email,price,name):
     server = smtplib.SMTP('smtp.gmail.com',587)
@@ -42,19 +47,36 @@ def algo():
     for res in result:
         userId.append(res.id)
         # print(res.id)
-    userProd = []
-    finalres = []
+
     for u in userId:
+        userProd = []
         product = db.collection('users').document(u).collection('urlDataCollection').get()
 
         for p in product:
             userProd.append(p.id)
         for k in userProd:
             col = db.collection('users').document(u).collection('urlDataCollection').document(k).get()
+
             currentInfo = col.to_dict()
             print(currentInfo)
+            priceData = {
+                '0': None,
+                '1': None,
+                '2': None,
+                '3': None,
+                '4': None,
+                '5': None,
+                '6': None,
+                '7': None
+            }
+
+
+
+
+            lastDate = currentInfo["lastUpdatedDate"]
             purl = currentInfo["productUrl"]
-            priceData = currentInfo['prices']
+            currentpriceData = currentInfo['prices']
+            currentPriceSDatabase = currentInfo['currentPrice']
             if(currentInfo['type'] == 'amazon'):
                  trackres = getAmazonPrice(purl)
                  print('Amazon!!')
@@ -62,50 +84,46 @@ def algo():
                 trackres = getFlipkartPrice(purl)
 
             newPrice = trackres["price"]
-            i = '0'
+            noList = ['0','1','2','3','4','5','6','7']
+            limit = todaysDate - lastDate
 
-            priceData['1'] = priceData['2']
-            priceData['2'] = priceData['3']
-            priceData['3'] = priceData['4']
-            priceData['4'] = priceData['5']
-            priceData['5'] = priceData['6']
-            print(priceData['7'])
-            priceData['6'] = priceData['7']
-            priceData['7'] = newPrice
-            newPrice = 490
-            if(newPrice < priceData['7']):
-                mailid = getEmail(u)
-                print('Send Email to ' + mailid)
-                print(currentInfo['productName'])
-                send_mail(purl,mailid,newPrice,currentInfo['productName'])
+            i = 0
+
+            if(limit>0):
+                while(i<(8-(limit))):
+                    priceData[noList[i]] = currentpriceData[noList[i+limit]]
+                    i = i+1
+            elif(limit == 0):
+                if(currentPriceSDatabase > newPrice):
+                    priceData = currentpriceData
+                    priceData['7'] = newPrice
+                elif(currentPriceSDatabase < newPrice):
+                    currentInfo['currentPrice'] = newPrice
+
+                    db.collection('users').document(u).collection('urlDataCollection').document(k).update(currentInfo)
+                    continue
+                else:
+                    continue
 
 
-            db.collection('users').document(u).collection('urlDataCollection').document(k).update(
-                {'prices' : priceData })
-            db.collection('users').document(u).collection('urlDataCollection').document(k).update(
-                {'currentPrice': newPrice})
-            db.collection('users').document(u).collection('urlDataCollection').document(k).update(
-                {'lastUpdatedDate': todaysDate})
+            currentInfo['prices'] = priceData
+            currentInfo['currentPrice'] = newPrice
+            currentInfo['lastUpdatedDate'] = todaysDate
+            if (currentInfo['activeStatus'] == True):
+                if (currentInfo['thresholdAlertStatus'] == True):
+                    if (currentInfo['currentPrice'] < currentInfo['thresholdValue']):
+                        mailid = getEmail(u)
+                        send_mail(purl, mailid, newPrice, currentInfo['productName'])
+
+                else:
+                    mailid = getEmail(u)
+                    send_mail(purl, mailid, newPrice, currentInfo['productName'])
+
+            db.collection('users').document(u).collection('urlDataCollection').document(k).update(currentInfo)
             col = db.collection('users').document(u).collection('urlDataCollection').document(k).get()
+            print('New Result After Update')
             print(col.to_dict())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-i=1
 
 def getEmail(id):
     result = db.collection('users').get()
@@ -116,57 +134,13 @@ def getEmail(id):
     return dt['email']
 
 
-
-def kfunction():
-    userId = []
-    price = []
-    result = db.collection('users').get()
-    for res in result:
-        userId.append(res.id)
-        #print(res.id)
-    userProd = []
-    finalres = []
-
-    for u in userId:
-        product = db.collection('users').document(u).collection('urlDataCollection').get()
-
-        for p in product:
-            userProd.append(p.id)
-        for k in userProd:
-            col = db.collection('users').document(u).collection('urlDataCollection').document(k).get()
-            finalres.append(col.to_dict())
-            purl = finalres[0]['productUrl']
-            trackres = getAmazonPrice(purl)
-            price = finalres[0]['prices']['1']
-            email = getEmail(u)
-            if(trackres['Price'] < price[-1]):
-                print('Send Email to ' + email)
-
-            price.append(trackres['Price'])
-            #pdetail = col.to_dict()
-            print('Send Email to ' + email)
-            print(pdetail)
-            z=1
-            s = str(z)
-            db.collection('users').document(u).collection('urlDataCollection').document(k).update({'prices.'+s : price})
-            col = db.collection('users').document(u).collection('urlDataCollection').document(k).get()
-            print(col.to_dict())
-
-
-
-algo()
+while(1):
+    algo()
+    time.sleep(10800)
 
 
 
 
-
-#product  = db.collection('users').document(userId[1]).collection('urlDataCollection').get()
-
-
-#db.collection('users').document(userId[1]).collection('urlDataCollection').document('AnEoifvLUD88wWzopkUy').update({ 'prices' : {'1': 200, '5': 4500, '7': 5000, '2': 5000, '3': 4000, '6': 5000, '4': 5000}})
-
-#col = db.collection('users').document(userId[1]).collection('urlDataCollection').document('AnEoifvLUD88wWzopkUy').get()
-#print(col.to_dict())
 
 
 
