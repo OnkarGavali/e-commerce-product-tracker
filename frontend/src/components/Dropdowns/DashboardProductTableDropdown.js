@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { addProductInChart } from 'redux/chartProducts/chartProductsActions';
 import { setEditProductData } from 'redux/editProduct/editProductActions';
 import { setCurrentProduct} from '../../redux/currentProduct/currentProductActions'
+import { deleteFromCurrentProductList } from 'redux/userProductCollection/userProductCollectionActions';
+import { deleteUrlList } from 'utils/firebaseUserData.utils';
 
-const DashboardProductTableDropdown = ({addProductInChart,product,chartProductList,setEditProductData,setEditFormRef,setCurrentProduct}) => {
+const DashboardProductTableDropdown = ({addProductInChart,product,chartProductList,currentProduct,setEditProductData,setEditFormRef,setCurrentProduct,deleteFromCurrentProductList,currentUser}) => {
     // dropdown props
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
     const btnDropdownRef = React.createRef();
@@ -43,6 +45,15 @@ const DashboardProductTableDropdown = ({addProductInChart,product,chartProductLi
         closeDropdownPopover()
         setCurrentProduct(product)
         setEditFormRef();
+        
+    }
+
+    const handleDelete = (e) =>{
+        e.preventDefault()
+        deleteFromCurrentProductList(product)
+        deleteUrlList(currentUser,product)
+        closeDropdownPopover()
+        alert("Product is Deleted")
     }
     return (
         <>
@@ -87,7 +98,7 @@ const DashboardProductTableDropdown = ({addProductInChart,product,chartProductLi
                 className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 }
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => handleDelete(e)}
                 >
                 Delete
                 </a>
@@ -97,14 +108,17 @@ const DashboardProductTableDropdown = ({addProductInChart,product,chartProductLi
 }
 
 const mapStateToProps = state => ({
-    chartProductList : state.chartProductList.chartProductList
+    chartProductList : state.chartProductList.chartProductList,
+    currentUser : state.user.currentUser,
+    currentProduct : state.currentProduct.currentProduct
 })
 
 
 const mapDispatchToProps = dispatch => ({
     addProductInChart : (product) => dispatch(addProductInChart(product)),
     setEditProductData : (product) => dispatch(setEditProductData(product)),
-    setCurrentProduct : (product) => dispatch(setCurrentProduct(product))
+    setCurrentProduct : (product) => dispatch(setCurrentProduct(product)),
+    deleteFromCurrentProductList : (product) => dispatch(deleteFromCurrentProductList(product))
 })
 
 export default connect( mapStateToProps, mapDispatchToProps )(DashboardProductTableDropdown);

@@ -132,3 +132,28 @@ export const UpdateEdited = async(data) => {
     console.log(finalData)
     return finalData;
 }
+
+export const checkHeader = (productList) =>{
+    let activeProduct = 0
+    let totalThresholdActiveProducts = 0
+    let productWhosPriceIsLessThanYesterday = 0 
+    productList.map((product) => {
+        if(product.activeStatus){
+            activeProduct=activeProduct+1
+            if(product.prices[6] && product.currentPrice && product.prices[6] > product.currentPrice){
+                productWhosPriceIsLessThanYesterday=totalThresholdActiveProducts+1
+            }
+            if(product.thresholdAlertStatus){
+                if(product.currentPrice<product.thresholdValue){
+                    totalThresholdActiveProducts=totalThresholdActiveProducts+1
+                }
+            }
+        }
+    })
+    const finalData = {
+        activeProduct:activeProduct,
+        totalThresholdActiveProducts:totalThresholdActiveProducts,
+        productWhosPriceIsLessThanYesterday:productWhosPriceIsLessThanYesterday
+    }
+    return finalData;
+}

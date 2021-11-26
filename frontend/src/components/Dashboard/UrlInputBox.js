@@ -224,7 +224,7 @@ const UrlInputBox = ({editFormRef,editProductData,setEditProductData,currentUser
                                                 className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                                 htmlFor="grid-password"
                                             >
-                                                Is there any Perticular Price value below that you want get Notified? <small>(optional and initialy service is off)</small>
+                                                Is there any Perticular Price value below that you want to get Notified? <small>(optional and initialy service is off)</small>
                                             </label>
                                             <input
                                                 type="number"
