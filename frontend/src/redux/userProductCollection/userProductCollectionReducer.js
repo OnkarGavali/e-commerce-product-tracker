@@ -23,6 +23,11 @@ const userProductCollectionReducer = ( state = INITIAL_STATE, action ) => {
                 ...state,
                 currentProductList : filteredDeletedList
             })
+        case UserProductCollectionTypes.ADD_PRODUCT_IN_LIST :
+            return ({
+                ...state,
+                currentProductList : [...state.currentProductList,action.payload]
+            })
         default : 
             return state;
     }

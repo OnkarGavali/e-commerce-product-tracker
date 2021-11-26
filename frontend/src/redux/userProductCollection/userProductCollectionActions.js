@@ -14,3 +14,8 @@ export const deleteFromCurrentProductList = product => ({
     type : UserProductCollectionTypes.DELETE_PRODUCT_FROM_LIST,
     payload : product
 });
+
+export const addNewInProductList = product => ({
+    type : UserProductCollectionTypes.ADD_PRODUCT_IN_LIST,
+    payload : product
+});

@@ -51,7 +51,7 @@ function ProductProfile({currentUser,setEditFormRef, currentProduct,removeCurren
       setThresholdStatus(currentProduct.thresholdAlertStatus)
     }
    
-  }, [])
+  }, [currentProduct])
 
   return (
     <>
