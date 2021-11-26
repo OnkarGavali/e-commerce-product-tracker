@@ -26,7 +26,8 @@ export default function Navbar(props) {
               <i className="fas fa-bars"></i>
             </button>
           </div>
-          <div
+
+          {/* <div
             className={
               "lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none" +
               (navbarOpen ? " block" : " hidden")
@@ -90,7 +91,7 @@ export default function Navbar(props) {
                 </button>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </nav>
     </>
