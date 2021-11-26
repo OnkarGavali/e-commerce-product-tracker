@@ -72,3 +72,63 @@ export const ActionOnPriceChange  = async (product) => {
     newData.lastUpdatedDate = todaysDate
     return newData;
 }
+export const AddNew = async({ProductTagName,productUrl,type,thresholdValue=0}) => {
+    const result = await priceCheck({"type":type,"productUrl":productUrl})
+    if(!result){
+        return false
+    }
+    const finalData = {
+        productName:result.name,
+        type:type,
+        ProductTagName:ProductTagName,
+        productUrl:productUrl,
+        imageUrl:result.image,
+        currentPrice:result.price,
+        prices:{
+            0:null,
+            1:null,
+            2:null,
+            3:null,
+            4:null,
+            5:null,
+            6:null,
+            7:result.price
+        },
+        thresholdValue:thresholdValue,
+    }
+    console.log(finalData)
+    return finalData;
+}
+
+
+export const UpdateEdited = async(data) => {
+    const result = await priceCheck({"type":data.type,"productUrl":data.productUrl})
+    if(!result){
+        return false
+    }
+    const finalData = {
+        id:data.id,
+        productName:result.name,
+        type:data.type,
+        ProductTagName:data.ProductTagName,
+        productUrl:data.productUrl,
+        imageUrl:result.image,
+        currentPrice:result.price,
+        prices:{
+            0:data.prices[0],
+            1:data.prices[1],
+            2:data.prices[2],
+            3:data.prices[3],
+            4:data.prices[4],
+            5:data.prices[5],
+            6:data.prices[6],
+            7:result.price
+        },
+        thresholdValue:data.thresholdValue,
+        activeStatus:data.activeStatus,
+        thresholdAlertStatus:data.thresholdAlertStatus,
+        lastUpdatedDate: data.lastUpdatedDate
+    }
+    console.log(finalData)
+    return finalData;
+}

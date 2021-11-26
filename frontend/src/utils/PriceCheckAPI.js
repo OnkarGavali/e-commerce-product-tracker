@@ -7,18 +7,26 @@ export const priceCheck = async (ProductData)=>  {
     }
     //console.log(dataToSend)
     let tmp = {}
+    
     await fetch('/pricecheck', {
-            'method' : "POST",
-            headers: {
-                "Content-Type" : 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(dataToSend)
-        })
-        .then(async resp => {tmp = await resp.json()})
-        .catch(e=>console.log("e",e))
+        'method' : "POST",
+        headers: {
+            "Content-Type" : 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(dataToSend)
+    })
+    .then(async resp => {
+                    
+        tmp = await resp.json()
+        if(tmp.successStatus){
+            return null;
+        }
+    })
+    .catch(e=>console.log("e",e))
     console.log("tmp",tmp)
+    
     return tmp;
 }
 

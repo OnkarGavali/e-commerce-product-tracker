@@ -15,33 +15,32 @@ function Profile({currentUser,currentProductList,setCurrentProductList }) {
   const [productList, setProductList] = useState(currentProductList)
   const [isLoading, setIsLoading] = useState(true)
   useEffect( async () => {
-      if(!currentProductList.length){
-        const data = await getUrlList(currentUser)
-            console.log(data.length,data)
-            let rankedList = []
-            if(data[0]){
-                data.map(prod =>{
-                    console.log("hi we are in rankedlist 1st loop")
-                    console.log("rankedlist prices[6]",prod.prices[6])
-                    if(prod && (prod.prices[6]!=null))
-                    {
-                        const priceChangeRate = 100 * (prod.prices[6] - prod.prices[7])/prod.prices[6]
-                        rankedList.push({...prod,profit:priceChangeRate})
-                    } else {
-                        rankedList.push({...prod,profit:-1000})
-                    }
-                } )
-                rankedList.sort((a,b)=> {return a.profit - b.profit})
-            }
-            console.log(rankedList)
-            if(rankedList){
-              setCurrentProductList(rankedList)
-              
-          }    
-      }
-        setProductList(currentProductList)
-        console.log("hi",currentProductList.length) 
-        setIsLoading(false)
+      // if(!currentProductList.length){
+      //   const data = await getUrlList(currentUser)
+      //     console.log(data.length,data)
+      //     let rankedList = []
+      //     if(data[0]){
+      //         data.map(prod =>{
+      //             console.log("hi we are in rankedlist 1st loop")
+      //             console.log("rankedlist prices[6]",prod.prices[6])
+      //             if(prod && (prod.prices[6]!=null))
+      //             {
+      //                 const priceChangeRate = 100 * (prod.prices[6] - prod.prices[7])/prod.prices[6]
+      //                 rankedList.push({...prod,profit:priceChangeRate})
+      //             } else {
+      //                 rankedList.push({...prod,profit:-1000})
+      //             }
+      //         } )
+      //         rankedList.sort((a,b)=> {return a.profit - b.profit})
+      //     }
+      //     console.log(rankedList)
+      //     if(rankedList){
+      //       setCurrentProductList(rankedList)
+      //   }    
+      // }
+      setProductList(currentProductList)
+      console.log("hi",currentProductList.length) 
+      setIsLoading(false)
        
     }, [])
   
@@ -166,8 +165,8 @@ function Profile({currentUser,currentProductList,setCurrentProductList }) {
 }
 
 const mapStateToProps = state => ({
-    currentUser : state.user.currentUser,
-    currentProductList : state.productList.currentProductList
+  currentUser : state.user.currentUser,
+  currentProductList : state.productList.currentProductList
 })
 
 const mapDispatchToProps = dispatch => ({

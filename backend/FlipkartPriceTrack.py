@@ -28,7 +28,9 @@ def getFlipkartPrice(url):
     res = {
     "name": search_result.text,
     "price": price,
-    "image": product_img
+    "image": product_img,
+    "successStatus":True,
+    'msg' :'PriceCheck Successfully'
     }
     #print(res)
     return res

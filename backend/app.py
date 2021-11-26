@@ -131,26 +131,37 @@ def algo(email,userId):
 def price_check():
     websiteType = request.json['type']
     url = request.json['url']
-    if(websiteType == "amazon"):
-        res = getAmazonPrice(url)
-    elif (websiteType == "flipkart"):
-        res= getFlipkartPrice(url)
-    response = jsonify(res)
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    return response
+    try:
+        if(websiteType == "amazon"):
+            res = getAmazonPrice(url)
+        elif (websiteType == "flipkart"):
+            res= getFlipkartPrice(url)
+        response = jsonify(res)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+    except:
+        response = jsonify({'msg' :'Update Failed',"successStatus":False})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+
 
 @app.route('/sendmail', methods=["POST"])
 @cross_origin(supports_credentials = True)
 def sendmail():
     email = request.json['email']
-    websiteType = request.json['type']
     url = request.json['url']
     price = request.json['price']
     name = request.json['ProductTagName']
-    send_mail(url,email,price,name)
-    response = jsonify({"web":websiteType,"type":'aa',"u":url})
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    return response
+    try:
+        send_mail(url,email,price,name)
+        response = jsonify({ 'msg' :'Updated Successfully',"successStatus":True})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+    except:
+        response = jsonify({'msg' :'Update Failed',"successStatus":False})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+   
 
 
 
@@ -161,9 +172,8 @@ def updateDatabase():
     userId = request.json['userId']
     res = algo(email,userId)
     if(res) :
-        return jsonify({ 'msg' :'Updated Successfully '})
-    return jsonify({ 'msg' :'Update Failed '})
+        return jsonify({ 'msg' :'Updated Successfully ',"successStatus":True})
+    return jsonify({ 'msg' :'Update Failed ',"successStatus":False})
     
-
 if __name__ == "__main__":
     app.run(debug=True)

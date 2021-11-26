@@ -6,12 +6,12 @@ export const addUrlList =  async (userAuth, urlData) => {
     if(!userAuth){
         return;
     }
-    const userRef =  firestore.doc(`users/${userAuth.uid}`)
-    const urlRef = firestore.collection(`users/${userAuth.uid}/urlDataCollection`)
+    const userRef =  firestore.doc(`users/${userAuth.id}`)
+    const urlRef = firestore.collection(`users/${userAuth.id}/urlDataCollection`)
     const updatedDate = new Date();
     const lastUpdate = updatedDate.getFullYear()*10000 + updatedDate.getMonth()*100 + updatedDate.getDate();
     const userSnapShot = await userRef.get()
-    //console.log(urlRef);
+    console.log(userAuth,urlData);
     if(userSnapShot.exists){
         try{
             await urlRef.add({
@@ -24,14 +24,28 @@ export const addUrlList =  async (userAuth, urlData) => {
                 prices:urlData.prices,
                 activeStatus:true,
                 thresholdValue:urlData.thresholdValue,
-                thresholdAlertStatus:true,
+                thresholdAlertStatus:false,
                 lastUpdatedDate: lastUpdate
             })
+            console.log("final",{
+                productName:urlData.productName,
+                type:urlData.type,
+                ProductTagName:urlData.ProductTagName,
+                productUrl:urlData.productUrl,
+                imageUrl:urlData.imageUrl,
+                currentPrice:urlData.currentPrice,
+                prices:urlData.prices,
+                activeStatus:true,
+                thresholdValue:urlData.thresholdValue,
+                thresholdAlertStatus:false,
+                lastUpdatedDate: lastUpdate
+            });
         } catch( error ){
             console.log('error creating user',error.message)
+            return false
         }
     }
-    return "done adding"
+    return true
 }
 
 // export const getUrlList =  async (userAuth ) =>{
@@ -203,12 +217,14 @@ export const updateUrlList =  async (userAuth, urlData) =>{
             })
         } catch( error){
             console.log('error creating user',error.message)
+            return false
         }
     }
     else {
         console.log("Invalid id");
+        return false
     }
-    console.log("end upadte")
+    return true
 }
 
 export const deleteUrlList =  async (userAuth, urlData) =>{
@@ -230,9 +246,4 @@ export const deleteUrlList =  async (userAuth, urlData) =>{
     else {
         console.log("Invalid id");
     }
-}
-
-
-export const abc = () => {
-
 }

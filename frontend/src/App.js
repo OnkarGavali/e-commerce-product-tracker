@@ -20,10 +20,9 @@ import DashboardLayout from 'layouts/DashboardLayout';
 import { setCurrentProductList } from 'redux/userProductCollection/userProductCollectionActions';
 import { getUrlList } from 'utils/firebaseUserData.utils';
 import { rankProductList } from 'utils/DataCooking.utils';
-import { isConditionalExpression } from 'typescript';
 
 
-const App = ({currentUser, setCurrentUser, setCurrentProductList}) => {
+const App = ({currentUser, setCurrentUser, setCurrentProductList,currentProductList}) => {
     const [productList, setProductList] = useState(null)
     //const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
@@ -40,8 +39,6 @@ const App = ({currentUser, setCurrentUser, setCurrentProductList}) => {
             } else {
                 setCurrentUser(userAuth)
             }
-            //console.log(currentUser)
-           setProductList(currentUser)
         }) 
         
             
@@ -53,21 +50,30 @@ const App = ({currentUser, setCurrentUser, setCurrentProductList}) => {
             unSubscribeFromAuth();
         }
     }, [])
-    useEffect( () => {
-        // if(currentUser){
-        //     const getProductList =  getUrlList(currentUser)
-        //     .then((productli)=>{
-        //         console.log(productli)
-        //         const li = rankProductList(productli)
-        //         .then((finalList)=>{
-        //             if(finalList){
-        //             setCurrentProductList(finalList)
-        //         }
-        //         console.log(finalList)
-        //         })
-                
-        //     })}
-    }, [productList])
+    useEffect(async () => {
+        if(!currentProductList.length){
+        const data = await getUrlList(currentUser)
+            let rankedList = []
+            if(data){
+                data.map(prod =>{
+                    console.log("hi we are in rankedlist 1st loop")
+                    console.log("rankedlist prices[6]",prod.prices[6])
+                    if(prod && (prod.prices[6]!=null))
+                    {
+                        const priceChangeRate = 100 * (prod.prices[6] - prod.prices[7])/prod.prices[6]
+                        rankedList.push({...prod,profit:priceChangeRate})
+                    } else {
+                        rankedList.push({...prod,profit:-1000})
+                    }
+                } )
+                rankedList.sort((a,b)=> {return a.profit - b.profit})
+            }
+            console.log(rankedList)
+            if(rankedList){
+                setCurrentProductList(rankedList)
+            } 
+        }
+    }, [currentUser,currentProductList])
     
     return (
         <React.Fragment>
@@ -85,8 +91,9 @@ const App = ({currentUser, setCurrentUser, setCurrentProductList}) => {
     )
 }
 
-const mapStateToProps = ({user}) => ({
-  currentUser : user.currentUser
+const mapStateToProps = ({user,productList}) => ({
+  currentUser : user.currentUser,
+  currentProductList: productList.currentProductList
 })
 
 const mapDispatchToProps = dispatch => ({
