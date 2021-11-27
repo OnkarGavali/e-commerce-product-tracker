@@ -38,11 +38,14 @@ function ProductProfile({currentUser,setEditFormRef, currentProduct,removeCurren
     deleteFromCurrentProductList(currentProduct)
     deleteUrlList(currentUser,currentProduct)
     removeCurrentProduct()
+    alert("Product is Deleted")
   }
   const handleSave =()=> {
     updateUrlList(currentUser,{...currentProduct, thresholdAlertStatus:thresholdStatus,activeStatus:productActiveStatus})
     setCurrentProduct({...currentProduct, thresholdAlertStatus:thresholdStatus,activeStatus:productActiveStatus})
     updateCurrentProductList({...currentProduct, thresholdAlertStatus:thresholdStatus,activeStatus:productActiveStatus})
+    alert("Product is Updated")
+    setIsChanged(false)
   }
 
   useEffect(() => {
@@ -50,8 +53,11 @@ function ProductProfile({currentUser,setEditFormRef, currentProduct,removeCurren
       setProductActiveStatus(currentProduct.activeStatus)
       setThresholdStatus(currentProduct.thresholdAlertStatus)
     }
-   
-  }, [])
+  }, [currentProduct])
+  
+  useEffect(() => {
+    
+  }, [thresholdStatus,productActiveStatus])
 
   return (
     <>
@@ -88,7 +94,7 @@ function ProductProfile({currentUser,setEditFormRef, currentProduct,removeCurren
                   ref={btnRef}
                 >
                   <i className="fas fa-bookmark mr-2 text-lg text-blueGray-400"></i>
-                  <a href="https://www.google.com/webhp?source=search_app">
+                  <a href={currentProduct.productUrl} target="_blank">
                     {currentProduct.productName.slice(0,25)+ "..."}
                   </a>
                   
@@ -138,7 +144,7 @@ function ProductProfile({currentUser,setEditFormRef, currentProduct,removeCurren
                     <span className="mb-2 text-blueGray-600">
                       <span className="border-t-0 px-3 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                         {
-                          currentProduct.activeStatus ? (
+                          productActiveStatus ? (
                             <>
                               <i className="fas fa-circle text-emerald-500 mr-2"></i>
                                 Active

@@ -105,7 +105,7 @@ export const ProfileTable = ({ productList, color }) => {
                             +(color === "light" ? "text-blueGray-600" : "text-white")
                           }
                         >
-                        {product.ProductTagName.length >15 ? (product.ProductTagName.slice(0,15)+"...") :product.ProductTagName }
+                        {product.ProductTagName.length >20 ? (product.ProductTagName.slice(0,20)+"...") :product.ProductTagName }
                         </span>
                       </th>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
@@ -127,17 +127,42 @@ export const ProfileTable = ({ productList, color }) => {
                         
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                       
                         {
-                         (product.profit != -1000) ?( (Math.round(product.profit * 100) / 100).toFixed(2) + " %" ): 0 + " %"
-                        }
+                              (product.profit != -1000) ? (
+                                <>
+                                    {
+                                      (Math.round(product.profit * 100) / 100).toFixed(2) > 0 ? (
+                                          <>
+                                              <i className="fas fa-arrow-down text-emerald-500 mr-4"></i>
+                                              {(Math.round(product.profit * 100) / 100).toFixed(2) + " %"}
+                                          </>
+                                      ) : (
+                                          <>
+                                          <i className="fas fa-arrow-up text-red-500 mr-4"></i>
+                                              {-1*(Math.round(product.profit * 100) / 100).toFixed(2) + " %"}
+                                          </>
+                                      )
+                                    }
+                                </>
+                              ) : (
+                                  0 + " %"
+                              )
+                            }
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                         {
                           product.thresholdAlertStatus ? (
-                            "Inactive"
+                              <>
+                              <i className="fas fa-circle text-emerald-500 mr-2"></i>
+                              {product.thresholdValue} 
+                              
+                              </>
                           ) : (
-                            product.thresholdValue
+                              <>
+                              <i className="fas fa-circle text-red-500 mr-2"></i> 
+                              {product.thresholdValue + " Rs."} 
+                              
+                              </>
                           )
                         }
                       </td>
@@ -146,7 +171,12 @@ export const ProfileTable = ({ productList, color }) => {
                   })
                   
                 ) : (
-                  <div> No DATA</div>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
                 )
               } 
             </tbody>

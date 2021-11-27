@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import ReactLoading from "react-loading";
 import { connect } from 'react-redux';
+import { updateCurrentProductList } from 'redux/userProductCollection/userProductCollectionActions';
 import { setCurrentProductList } from 'redux/userProductCollection/userProductCollectionActions';
 import { UpdateEdited } from 'utils/DataCooking.utils';
 import { AddNew } from 'utils/DataCooking.utils';
 import { updateUrlList } from 'utils/firebaseUserData.utils';
 import { addUrlList } from 'utils/firebaseUserData.utils';
 import { createNewProduct, setEditProductData } from '../../redux/editProduct/editProductActions'
-const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProductData,currentUser,setCurrentProductList}) => {
+const UrlInputBox = ({editFormRef,editProductData,setEditProductData,currentUser,setCurrentProductList,updateCurrentProductList}) => {
 
     const [insertedUrl, setInsertedUrl] = useState("")
     const [tagName, setTagName] = useState("")
@@ -48,7 +49,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProdu
             const finalCheck  = await addUrlList(currentUser,resData)
             if(finalCheck){
                 alert("Product Added successfully")
-
+                setCurrentProductList([])
             }else{
                 alert("Product not added check url")
             }
@@ -71,7 +72,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProdu
     }
     const handleUpdateSubmit = async() => {
         setIsLoading(true)
-        let type,resData;
+        let type,resData, newEditedData;
         if(insertedUrl.indexOf( "https://www.amazon.in/") !== -1 ) {
             type = "amazon"
         } else if( insertedUrl.indexOf( "https://www.flipkart.com/") !== -1 ) {
@@ -83,16 +84,17 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProdu
         //console.log(thresholdValue,Number(thresholdValue),tagName,insertedUrl,thresholdValue.length)
         if(thresholdValue.length){
             const number = Number(thresholdValue)
-            const newEditedData = {...editProductData,ProductTagName:tagName,productUrl: insertedUrl,type:type,thresholdValue:number}
+            newEditedData = {...editProductData,ProductTagName:tagName,productUrl: insertedUrl,type:type,thresholdValue:number}
             resData = await UpdateEdited(newEditedData)
         } else {
-            const newEditedData = {...editProductData,ProductTagName:tagName,productUrl: insertedUrl,type:type,thresholdValue:0}
+            newEditedData = {...editProductData,ProductTagName:tagName,productUrl: insertedUrl,type:type,thresholdValue:0}
             resData = await UpdateEdited(newEditedData)
         }
         if(resData){
             const finalCheck  = await updateUrlList(currentUser,resData)
             if(finalCheck){
                 alert("Product updated successfully")
+                updateCurrentProductList(resData)
             }else{
                 alert("Product not updated check url")
             }
@@ -131,7 +133,14 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProdu
                                             Update Product
                                             </button>
                                         ) : (
-                                            null
+                                             <button
+                                                className="disabled:bg-lightBlue-100 bg-lightBlue-300 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                                type="button"
+                                                onClick={()=>handleUpdateSubmit()}
+                                                disabled
+                                            >
+                                            Update Product
+                                            </button>
                                         )
                                     }
                                 </>
@@ -147,7 +156,14 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProdu
                                             ADD Product
                                             </button>
                                         ) : (
-                                            null
+                                            <button
+                                                className="disabled:bg-lightBlue-100 bg-lightBlue-300 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                                type="button"
+                                                onClick={()=>handleAddNewSubmit()}
+                                                disabled
+                                            >
+                                            ADD Product
+                                            </button>
                                         )
                                     }
                                 </>
@@ -208,7 +224,7 @@ const UrlInputBox = ({editFormRef,editProductData, createNewProduct,setEditProdu
                                                 className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                                 htmlFor="grid-password"
                                             >
-                                                Is there any Perticular Price value below that you want get Notified? <small>(optional and initialy service is off)</small>
+                                                Is there any Perticular Price value below that you want to get Notified? <small>(optional and initialy service is off)</small>
                                             </label>
                                             <input
                                                 type="number"
@@ -239,7 +255,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     createNewProduct : () => dispatch(createNewProduct()),
     setEditProductData : () => dispatch(setEditProductData()),
-    setCurrentProductList : () => dispatch(setCurrentProductList())
+    setCurrentProductList : (productlist) => dispatch(setCurrentProductList(productlist)),
+    updateCurrentProductList : (product) =>dispatch(updateCurrentProductList(product))
 })
 
 export  default connect(mapStateToProps, mapDispatchToProps)(UrlInputBox);

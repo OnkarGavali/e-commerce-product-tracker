@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 
 import CardStats from "components/Cards/CardStats.js";
+import { connect } from "react-redux";
+import { checkHeader } from "utils/DataCooking.utils";
 
-export default function HeaderStats() {
+function HeaderStats({currentProductList}) {
+  const [statData, setStatData] = useState(null)
+  useEffect(() => {
+    setStatData(checkHeader(currentProductList))
+  }, [currentProductList])
+  useEffect(() => {
+   
+  }, [statData])
   return (
     <>
       {/* Header */}
@@ -12,59 +21,58 @@ export default function HeaderStats() {
         <div className="px-4 md:px-10 mx-auto w-full">
           <div>
             {/* Card stats */}
-            <div className="flex flex-wrap">
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-                <CardStats
-                  statSubtitle="No of products price Change"
-                  statTitle="350,897"
-                  statArrow="up"
-                  statPercent="3.48"
-                  statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
-                  statIconName="far fa-chart-bar"
-                  statIconColor="bg-red-500"
-                />
-              </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-                <CardStats
-                  statSubtitle="ACTIVE Product links"
-                  statTitle="2,356"
-                  statArrow="down"
-                  statPercent="3.48"
-                  statPercentColor="text-red-500"
-                  statDescripiron="Since last week"
-                  statIconName="fas fa-chart-pie"
-                  statIconColor="bg-orange-500"
-                />
-              </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-                <CardStats
-                  statSubtitle="Prouct prices below thresold"
-                  statTitle="924"
-                  statArrow="down"
-                  statPercent="1.10"
-                  statPercentColor="text-orange-500"
-                  statDescripiron="Since yesterday"
-                  statIconName="fas fa-users"
-                  statIconColor="bg-pink-500"
-                />
-              </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-                <CardStats
-                  statSubtitle="PERFORMANCE"
-                  statTitle="49,65%"
-                  statArrow="up"
-                  statPercent="12"
-                  statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
-                  statIconName="fas fa-percent"
-                  statIconColor="bg-lightBlue-500"
-                />
-              </div>
-            </div>
+            {
+              statData ? (
+                <div className="flex flex-wrap">
+                  <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                    <CardStats
+                      statSubtitle={"Total Products"}
+                      statTitle={currentProductList.length}
+                      statIconName="far fa-chart-bar"
+                      statIconColor="bg-red-500"
+                    />
+                  </div>
+                  <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                    <CardStats
+                      statSubtitle="ACTIVE Product links"
+                      statTitle={statData.activeProduct ? statData.activeProduct : 0}
+                      statIconName="fas fa-chart-pie"
+                      statIconColor="bg-orange-500"
+                    />
+                  </div>
+                  
+                  <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                    <CardStats
+                      statSubtitle="Product whos price less than Yesterday "
+                      statTitle={statData.productWhosPriceIsLessThanYesterday ? statData.productWhosPriceIsLessThanYesterday : 0}
+                      statIconName="fas fa-users"
+                      statIconColor="bg-pink-500"
+                    />
+                  </div>
+                  <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                    <CardStats
+                      statSubtitle="Product below Threshold Price"
+                      statTitle={statData.totalThresholdActiveProducts ? statData.totalThresholdActiveProducts :0}
+                      statIconName="fas fa-percent"
+                      statIconColor="bg-lightBlue-500"
+                    />
+                  </div>
+                </div>
+              ) : (
+                null
+              )
+            }
+            
           </div>
         </div>
       </div>
     </>
   );
 }
+
+
+const mapStateToProps = ({productList}) => ({
+  currentProductList: productList.currentProductList
+})
+
+export default connect(mapStateToProps)(HeaderStats);
