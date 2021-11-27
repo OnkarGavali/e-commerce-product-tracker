@@ -45,7 +45,7 @@ def getAmazonPrice(url):
         "price": price,
         "image": product_img
     }
-    print(res)
+    #print(res)
     return res
 
 
