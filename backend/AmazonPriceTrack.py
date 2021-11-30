@@ -13,14 +13,7 @@ driver = webdriver.Chrome(ChromeDriverManager().install(), options=option)
 def getAmazonPrice(url):
     driver.get(url)
     search_result = driver.find_element(By.XPATH, "//span[contains(@id,'productTitle')]")
-    mystr = ['priceblock_dealprice', 'priceblock_saleprice', ' priceblock_ourprice']
 
-    for str in mystr:
-        check = '//span[contains(@id,' + str + ')]'
-        try:
-            product_price = driver.find_element(By.XPATH, check)
-        except NoSuchElementException:
-            continue
 
     try:
         product_price = driver.find_element(By.XPATH, "//span[contains(@id,'priceblock_dealprice')]")
@@ -45,7 +38,7 @@ def getAmazonPrice(url):
         "price": price,
         "image": product_img
     }
-    #print(res)
+    print(res)
     return res
 
 
