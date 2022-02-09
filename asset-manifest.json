@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/e-commerce-product-tracker/static/css/main.3ad3c89f.chunk.css",
+    "main.js": "/e-commerce-product-tracker/static/js/main.ba488f1a.chunk.js",
+    "main.js.map": "/e-commerce-product-tracker/static/js/main.ba488f1a.chunk.js.map",
+    "runtime-main.js": "/e-commerce-product-tracker/static/js/runtime-main.96c4cd52.js",
+    "runtime-main.js.map": "/e-commerce-product-tracker/static/js/runtime-main.96c4cd52.js.map",
+    "static/css/2.a2399fd3.chunk.css": "/e-commerce-product-tracker/static/css/2.a2399fd3.chunk.css",
+    "static/js/2.0319f106.chunk.js": "/e-commerce-product-tracker/static/js/2.0319f106.chunk.js",
+    "static/js/2.0319f106.chunk.js.map": "/e-commerce-product-tracker/static/js/2.0319f106.chunk.js.map",
+    "index.html": "/e-commerce-product-tracker/index.html",
+    "static/css/2.a2399fd3.chunk.css.map": "/e-commerce-product-tracker/static/css/2.a2399fd3.chunk.css.map",
+    "static/css/main.3ad3c89f.chunk.css.map": "/e-commerce-product-tracker/static/css/main.3ad3c89f.chunk.css.map",
+    "static/js/2.0319f106.chunk.js.LICENSE.txt": "/e-commerce-product-tracker/static/js/2.0319f106.chunk.js.LICENSE.txt",
+    "static/media/all.min.css": "/e-commerce-product-tracker/static/media/fa-solid-900.efbd5d20.eot",
+    "static/media/google.svg": "/e-commerce-product-tracker/static/media/google.952443d7.svg",
+    "static/media/pattern_react.png": "/e-commerce-product-tracker/static/media/pattern_react.01996482.png",
+    "static/media/register_bg_2.png": "/e-commerce-product-tracker/static/media/register_bg_2.4f2cb0ac.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.96c4cd52.js",
+    "static/css/2.a2399fd3.chunk.css",
+    "static/js/2.0319f106.chunk.js",
+    "static/css/main.3ad3c89f.chunk.css",
+    "static/js/main.ba488f1a.chunk.js"
+  ]
+}
