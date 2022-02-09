@@ -1,8 +1,9 @@
 {
-  "name": "notus-react",
+  "name": "e-commercer-price-tracker",
   "version": "1.1.0",
-  "description": "Notus React - A free Tailwind CSS and React UI Kit and Admin by Creative Tim.",
-  "repository": "https://github.com/creativetimofficial/notus-react",
+  "description": "It tracks products",
+  "repository": "https://github.com/OnkarGavali/e-commerce-product-tracker",
+  "homepage": "https://onkargavali.github.io/e-commerce-product-tracker",
   "license": "MIT",
   "proxy": "http://127.0.0.1:5000",
   "dependencies": {
@@ -29,6 +30,8 @@
     "tailwindcss": "2.0.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build && gulp licenses",
     "test": "react-scripts test",
@@ -53,5 +56,8 @@
   },
   "optionalDependencies": {
     "typescript": "4.2.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
