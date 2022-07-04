@@ -12,20 +12,20 @@ iii. There should be a price tracking system to keep track of prices on ecommerc
 iv. This tracking can be done with the help of web scrapping<br/>
 v. Also, we can compare the price of product on different websites with the help of web scrapping<br/>
 
-## 2 Problem statement
+## 2. Problem statement
 a. To Create a Website Which will help the Customer by notifying Changes in Prices Of Product <br/>
 b. Sending user a email when product price drops <br/>
 c. Providing a interface through which user can analyse product prices <br/>
 through graphs and can also add a product for tracking <br/>
 
-## 3 Objectives
+## 3. Objectives
 a. To Create A Web Page Where User Can Register a Product To Track.<br/>
 b. Using Web Scraping Technology For Tracking Of a Particular Product <br/>
 c. Allowing users to analyze price of the product with help of graphs and charts from the website <br/>
 d. Users will receive an email every time price gets low <br/>
 e. To save Customers valuable Time and Money <br/>
 
-## 4 Methodology
+## 4. Methodology
 ### Methodology
 a. Here we will use agile methodology for the development purpose <br/>
 b. User can input URL or search the product <br/>
